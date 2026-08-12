@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Автосервис в Ярославле - ремонт ходовой, двигателя, диагностика</title>
+<style>
+:root {
+  --accent: #e8701a;
+  --accent-dark: #be5c15;
+  --accent-rgb: 232, 112, 26;
+  --bg: #ffffff;
+  --bg-soft: #f5f7fa;
+  --fg: #16202e;
+  --muted: #5c6b7f;
+  --border: #e2e8f0;
+  --radius: 14px;
+  --shadow: 0 10px 30px rgba(20, 30, 50, .08);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font: 17px/1.6 -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--fg);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; }
+.wrap { width: min(1120px, 100% - 40px); margin-inline: auto; }
+
+header {
+  position: sticky; top: 0; z-index: 10;
+  background: rgba(255,255,255,.88);
+  backdrop-filter: saturate(160%) blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.bar { display: flex; align-items: center; gap: 24px; height: 68px; }
+.brand { font-weight: 700; font-size: 19px; letter-spacing: -.02em; }
+nav { margin-left: auto; display: flex; gap: 22px; flex-wrap: wrap; }
+nav a { color: var(--muted); text-decoration: none; font-size: 15px; }
+nav a:hover { color: var(--fg); }
+
+.btn {
+  display: inline-block; padding: 14px 28px; border-radius: 10px;
+  background: var(--accent); color: #fff; text-decoration: none;
+  font-weight: 600; font-size: 16px; border: 0; cursor: pointer;
+  transition: background .15s ease, transform .15s ease;
+}
+.btn:hover { background: var(--accent-dark); transform: translateY(-1px); }
+.btn-ghost {
+  background: transparent; color: var(--accent);
+  border: 1px solid var(--accent); padding: 12px 24px;
+}
+.btn-ghost:hover { background: rgba(var(--accent-rgb), .08); transform: none; }
+
+section { padding: 76px 0; }
+section.soft { background: var(--bg-soft); }
+/* блок из одного заголовка: на полной высоте он выглядит дырой в странице */
+section.compact { padding: 40px 0; }
+section.compact .sec-head { margin-bottom: 0; }
+section.compact h2 { font-size: clamp(21px, 2.4vw, 27px); margin: 0; }
+h1, h2, h3 { line-height: 1.25; letter-spacing: -.02em; margin: 0 0 14px; }
+h1 { font-size: clamp(32px, 5vw, 52px); }
+h2 { font-size: clamp(26px, 3.4vw, 36px); }
+h3 { font-size: 19px; }
+.lead { font-size: 19px; color: var(--muted); max-width: 62ch; margin: 0 0 28px; }
+.sec-head { max-width: 62ch; margin-bottom: 38px; }
+.sec-head p { color: var(--muted); margin: 0; }
+
+.hero { padding: 96px 0 88px; background:
+  radial-gradient(1000px 400px at 15% -10%, rgba(var(--accent-rgb), .14), transparent 70%),
+  var(--bg); }
+.hero h1 { max-width: 18ch; }
+
+.grid { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.card {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 26px;
+}
+.card p { color: var(--muted); margin: 0; }
+section.soft .card { background: #fff; }
+
+.steps { counter-reset: step; }
+.steps .card { position: relative; padding-top: 30px; }
+.steps .card::before {
+  counter-increment: step; content: counter(step);
+  display: flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; margin-bottom: 14px; border-radius: 50%;
+  background: rgba(var(--accent-rgb), .12); color: var(--accent); font-weight: 700;
+}
+
+.price .card { display: flex; flex-direction: column; }
+.price .amount { font-size: 30px; font-weight: 700; margin: 8px 0 4px; }
+.price ul { list-style: none; padding: 0; margin: 16px 0 0; color: var(--muted); }
+.price li { padding-left: 24px; position: relative; margin-bottom: 8px; }
+.price li::before {
+  content: "✓"; position: absolute; left: 0; color: var(--accent); font-weight: 700;
+}
+.card.featured { border-color: var(--accent); box-shadow: var(--shadow); }
+
+details {
+  border-bottom: 1px solid var(--border); padding: 18px 0;
+}
+details summary {
+  cursor: pointer; font-weight: 600; list-style: none;
+  display: flex; justify-content: space-between; gap: 16px;
+}
+details summary::-webkit-details-marker { display: none; }
+details summary::after { content: "+"; color: var(--accent); font-size: 22px; line-height: 1; }
+details[open] summary::after { content: "−"; }
+details p { color: var(--muted); margin: 12px 0 0; max-width: 72ch; }
+
+.gallery {
+  display: grid; gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+.gallery img {
+  width: 100%; aspect-ratio: 4 / 3; object-fit: cover;
+  border-radius: var(--radius); display: block;
+}
+
+blockquote {
+  margin: 0; padding: 24px 26px; background: var(--bg-soft);
+  border-left: 3px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0;
+}
+blockquote p { margin: 0 0 12px; }
+blockquote cite { color: var(--muted); font-style: normal; font-size: 15px; }
+
+form { display: grid; gap: 14px; max-width: 520px; }
+label { font-size: 14px; color: var(--muted); display: block; margin-bottom: 6px; }
+input, textarea {
+  width: 100%; padding: 13px 15px; font: inherit; color: var(--fg);
+  background: #fff; border: 1px solid var(--border); border-radius: 10px;
+}
+input:focus, textarea:focus {
+  outline: none; border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb), .16);
+}
+input:user-invalid { border-color: #d94040; }
+textarea { min-height: 110px; resize: vertical; }
+.hint { font-size: 14px; color: var(--muted); }
+.ok {
+  display: none; padding: 16px 18px; border-radius: 10px;
+  background: rgba(var(--accent-rgb), .1); color: var(--accent-dark); font-weight: 600;
+}
+form.sent { display: none; }
+form.sent + .ok { display: block; }
+.err {
+  display: none; color: #b23030; font-size: 15px;
+}
+
+.contacts { display: grid; gap: 10px; align-content: start; color: var(--muted); }
+.contacts a { color: var(--fg); text-decoration: none; }
+.contacts a:hover { color: var(--accent); }
+.two { display: grid; gap: 44px; grid-template-columns: 1fr 1fr; align-items: start; }
+
+footer {
+  padding: 34px 0; border-top: 1px solid var(--border);
+  color: var(--muted); font-size: 15px;
+  display: flex; gap: 16px; flex-wrap: wrap; justify-content: space-between;
+}
+
+@media (max-width: 760px) {
+  nav { display: none; }
+  section { padding: 56px 0; }
+  .hero { padding: 64px 0 56px; }
+  .two { grid-template-columns: 1fr; gap: 32px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; }
+}
+</style>
+</head>
+<body>
+<header><div class="wrap bar">
+  <span class="brand">Автосервис на Полушкиной роще</span>
+  <nav><a href="#s1">Цены</a><a href="#s2">Почему мы</a><a href="#s3">Где мы</a><a href="#s4">Вопросы</a><a href="#form">Связаться</a></nav>
+</div></header>
+<section class="hero" id="s0"><div class="wrap"><h1>Ремонт ходовой, двигателя и диагностика в Ярославле</h1><p class="lead">Работаем 12 лет, свой подъёмник и стенд развал-схождения. Полушкина роща 9, пн-сб с 9 до 20.</p><a class="btn" href="#form">Записаться на ремонт</a></div></section><section id="s1"><div class="wrap"><div class="sec-head"><h2>Цены на основные работы</h2></div><div class="grid price"><div class="card"><h3>Диагностика</h3><div class="amount">1500 руб</div><p>Смотрим машину и говорим, что с ней и что придётся менять.</p><ul><li>Ходовая</li><li>Двигатель</li></ul></div>
+<div class="card"><h3>Замена масла</h3><div class="amount">от 900 руб</div><p>Меняем масло на подъёмнике, цена зависит от машины и объёма работ.</p><ul><li>Свой подъёмник</li><li>Запись по телефону</li></ul></div>
+<div class="card featured"><h3>Развал-схождение</h3><div class="amount">2500 руб</div><p>Делаем на собственном стенде, без поездок в соседний сервис.</p><ul><li>Свой стенд</li><li>Пн-сб с 9 до 20</li></ul></div></div></div></section><section class="soft" id="s2"><div class="wrap"><div class="sec-head"><h2>Почему к нам едут второй раз</h2></div><div class="grid"><div class="card"><h3>12 лет в работе</h3><p>Сервис открылся 12 лет назад и всё это время стоит на одном месте.</p></div>
+<div class="card"><h3>Свой подъёмник</h3><p>Машину смотрим снизу на подъёмнике, а не на глаз во дворе.</p></div>
+<div class="card"><h3>Свой стенд развал-схождения</h3><p>Развал-схождение делаем у себя, машину никуда перегонять не нужно.</p></div>
+<div class="card"><h3>Ходовая и двигатель</h3><p>Занимаемся ремонтом ходовой, двигателя и диагностикой.</p></div></div></div></section><section class="compact" id="s3"><div class="wrap"><div class="sec-head"><h2>Как нас найти</h2><p>Мы находимся по адресу Ярославль, Полушкина роща 9. Работаем пн-сб с 9 до 20, телефон +7 4852 33-44-55. Позвоните или оставьте заявку, мы подберём удобное время.</p></div></div></section><section class="soft" id="s4"><div class="wrap"><div class="sec-head"><h2>Короткие ответы на частые вопросы</h2></div><details><summary>Где вы находитесь?</summary><p>Ярославль, Полушкина роща 9.</p></details>
+<details><summary>Когда вы работаете?</summary><p>Пн-сб с 9 до 20.</p></details>
+<details><summary>Сколько стоит диагностика?</summary><p>Диагностика 1500 рублей.</p></details>
+<details><summary>Развал-схождение делаете у себя?</summary><p>Да, у нас свой стенд. Развал-схождение 2500 рублей.</p></details>
+<details><summary>Как записаться?</summary><p>Позвонить по телефону +7 4852 33-44-55 или оставить имя и телефон в форме.</p></details></div></section>
+
+<section class="soft" id="form"><div class="wrap">
+  <div class="two">
+    <div>
+      <h2>Запись в сервис</h2>
+      <p class="hint">Оставьте имя и телефон, перезвоним и согласуем время.</p>
+      <form novalidate data-endpoint="https://formsubmit.co/ajax/service@example.ru">
+        <div><label for="f-name">Как вас зовут</label>
+          <input id="f-name" name="name" required autocomplete="name"></div>
+        <div><label for="f-contact">Телефон или почта</label>
+          <input id="f-contact" name="contact" required autocomplete="tel"></div>
+        <div><label for="f-msg">Что нужно сделать</label>
+          <textarea id="f-msg" name="message"></textarea></div>
+        <button class="btn" type="submit">Отправить</button>
+        <p class="err">Не удалось отправить. Проверьте интернет или напишите нам напрямую.</p>
+      </form>
+      <div class="ok">Спасибо, заявка принята. Свяжемся с вами в ближайшее время.</div>
+    </div>
+    <div><div class="contacts"><div>Телефон: <a href="tel:+74852334455">+7 4852 33-44-55</a></div><div>Почта: <a href="mailto:service@example.ru">service@example.ru</a></div><div>Адрес: Ярославль, Полушкина роща 9</div><div>Часы работы: пн-сб с 9 до 20</div></div></div>
+  </div>
+</div></section>
+<footer><div class="wrap" style="display:flex;gap:16px;flex-wrap:wrap;
+  justify-content:space-between;width:min(1120px,100% - 40px)">
+  <span>Автосервис на Полушкиной роще</span><span>© 2026</span>
+</div></footer>
+<script>
+document.querySelectorAll('form').forEach(function (form) {
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    var url = form.dataset.endpoint;
+    var done = function () { form.classList.add('sent'); };
+    if (!url) { done(); return; }
+
+    var button = form.querySelector('button[type=submit]');
+    var label = button ? button.textContent : '';
+    if (button) { button.disabled = true; button.textContent = 'Отправляю...'; }
+
+    fetch(url, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+      body: JSON.stringify(Object.fromEntries(new FormData(form)))
+    }).then(function (r) {
+      if (!r.ok) { throw new Error(r.status); }
+      done();
+    }).catch(function () {
+      var box = form.querySelector('.err');
+      if (box) { box.style.display = 'block'; }
+      if (button) { button.disabled = false; button.textContent = label; }
+    });
+  });
+});
+</script>
+</body>
+</html>

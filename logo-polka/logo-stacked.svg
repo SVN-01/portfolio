@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 156" width="520" height="312" color="#3B2A22" role="img" aria-labelledby="stacked-title">
+  <title id="stacked-title">Тёплый угол — кофейня. Вертикальный логотип</title>
+
+  <g id="mark" transform="translate(83.5 -8) scale(1.5)">
+    <path id="handle" fill="none" stroke="#C25B3E" stroke-width="4.6" stroke-linecap="round"
+          d="M42 30.5c8.5 0 8.5 10 0 10"/>
+    <path id="frame" fill="#C25B3E" d="M13 45V30a15 15 0 0 1 30 0v15Z"/>
+    <path id="light" fill="#F7EDE0" d="M16.5 41.5V30a11.5 11.5 0 0 1 23 0v11.5Z"/>
+    <path id="bars" fill="none" stroke="#3B2A22" stroke-width="2.4" stroke-linecap="round"
+          d="M28 19v22.5M17 31h22"/>
+    <rect id="sill" x="9" y="46.6" width="44" height="3.6" rx="1.8" fill="currentColor"/>
+  </g>
+
+  <text id="wordmark" x="130" y="110" text-anchor="middle" fill="currentColor"
+        font-family="Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', serif"
+        font-size="36">Тёплый угол</text>
+
+  <text id="tagline" x="130" y="134" text-anchor="middle" fill="#C25B3E"
+        font-family="Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', serif"
+        font-size="11" letter-spacing="3.6">КОФЕ · КНИГИ · ТИШИНА</text>
+</svg>

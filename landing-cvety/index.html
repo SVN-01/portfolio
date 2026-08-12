@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Доставка цветов по Ярославлю за час - букеты круглосуточно</title>
+<style>
+:root {
+  --accent: #d9a3ae;
+  --accent-dark: #b2868f;
+  --accent-rgb: 217, 163, 174;
+  --bg: #ffffff;
+  --bg-soft: #f5f7fa;
+  --fg: #16202e;
+  --muted: #5c6b7f;
+  --border: #e2e8f0;
+  --radius: 14px;
+  --shadow: 0 10px 30px rgba(20, 30, 50, .08);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font: 17px/1.6 -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--fg);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; }
+.wrap { width: min(1120px, 100% - 40px); margin-inline: auto; }
+
+header {
+  position: sticky; top: 0; z-index: 10;
+  background: rgba(255,255,255,.88);
+  backdrop-filter: saturate(160%) blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.bar { display: flex; align-items: center; gap: 24px; height: 68px; }
+.brand { font-weight: 700; font-size: 19px; letter-spacing: -.02em; }
+nav { margin-left: auto; display: flex; gap: 22px; flex-wrap: wrap; }
+nav a { color: var(--muted); text-decoration: none; font-size: 15px; }
+nav a:hover { color: var(--fg); }
+
+.btn {
+  display: inline-block; padding: 14px 28px; border-radius: 10px;
+  background: var(--accent); color: #fff; text-decoration: none;
+  font-weight: 600; font-size: 16px; border: 0; cursor: pointer;
+  transition: background .15s ease, transform .15s ease;
+}
+.btn:hover { background: var(--accent-dark); transform: translateY(-1px); }
+.btn-ghost {
+  background: transparent; color: var(--accent);
+  border: 1px solid var(--accent); padding: 12px 24px;
+}
+.btn-ghost:hover { background: rgba(var(--accent-rgb), .08); transform: none; }
+
+section { padding: 76px 0; }
+section.soft { background: var(--bg-soft); }
+/* блок из одного заголовка: на полной высоте он выглядит дырой в странице */
+section.compact { padding: 40px 0; }
+section.compact .sec-head { margin-bottom: 0; }
+section.compact h2 { font-size: clamp(21px, 2.4vw, 27px); margin: 0; }
+h1, h2, h3 { line-height: 1.25; letter-spacing: -.02em; margin: 0 0 14px; }
+h1 { font-size: clamp(32px, 5vw, 52px); }
+h2 { font-size: clamp(26px, 3.4vw, 36px); }
+h3 { font-size: 19px; }
+.lead { font-size: 19px; color: var(--muted); max-width: 62ch; margin: 0 0 28px; }
+.sec-head { max-width: 62ch; margin-bottom: 38px; }
+.sec-head p { color: var(--muted); margin: 0; }
+
+.hero { padding: 96px 0 88px; background:
+  radial-gradient(1000px 400px at 15% -10%, rgba(var(--accent-rgb), .14), transparent 70%),
+  var(--bg); }
+.hero h1 { max-width: 18ch; }
+
+.grid { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.card {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 26px;
+}
+.card p { color: var(--muted); margin: 0; }
+section.soft .card { background: #fff; }
+
+.steps { counter-reset: step; }
+.steps .card { position: relative; padding-top: 30px; }
+.steps .card::before {
+  counter-increment: step; content: counter(step);
+  display: flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; margin-bottom: 14px; border-radius: 50%;
+  background: rgba(var(--accent-rgb), .12); color: var(--accent); font-weight: 700;
+}
+
+.price .card { display: flex; flex-direction: column; }
+.price .amount { font-size: 30px; font-weight: 700; margin: 8px 0 4px; }
+.price ul { list-style: none; padding: 0; margin: 16px 0 0; color: var(--muted); }
+.price li { padding-left: 24px; position: relative; margin-bottom: 8px; }
+.price li::before {
+  content: "✓"; position: absolute; left: 0; color: var(--accent); font-weight: 700;
+}
+.card.featured { border-color: var(--accent); box-shadow: var(--shadow); }
+
+details {
+  border-bottom: 1px solid var(--border); padding: 18px 0;
+}
+details summary {
+  cursor: pointer; font-weight: 600; list-style: none;
+  display: flex; justify-content: space-between; gap: 16px;
+}
+details summary::-webkit-details-marker { display: none; }
+details summary::after { content: "+"; color: var(--accent); font-size: 22px; line-height: 1; }
+details[open] summary::after { content: "−"; }
+details p { color: var(--muted); margin: 12px 0 0; max-width: 72ch; }
+
+.gallery {
+  display: grid; gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+.gallery img {
+  width: 100%; aspect-ratio: 4 / 3; object-fit: cover;
+  border-radius: var(--radius); display: block;
+}
+
+blockquote {
+  margin: 0; padding: 24px 26px; background: var(--bg-soft);
+  border-left: 3px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0;
+}
+blockquote p { margin: 0 0 12px; }
+blockquote cite { color: var(--muted); font-style: normal; font-size: 15px; }
+
+form { display: grid; gap: 14px; max-width: 520px; }
+label { font-size: 14px; color: var(--muted); display: block; margin-bottom: 6px; }
+input, textarea {
+  width: 100%; padding: 13px 15px; font: inherit; color: var(--fg);
+  background: #fff; border: 1px solid var(--border); border-radius: 10px;
+}
+input:focus, textarea:focus {
+  outline: none; border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb), .16);
+}
+input:user-invalid { border-color: #d94040; }
+textarea { min-height: 110px; resize: vertical; }
+.hint { font-size: 14px; color: var(--muted); }
+.ok {
+  display: none; padding: 16px 18px; border-radius: 10px;
+  background: rgba(var(--accent-rgb), .1); color: var(--accent-dark); font-weight: 600;
+}
+form.sent { display: none; }
+form.sent + .ok { display: block; }
+.err {
+  display: none; color: #b23030; font-size: 15px;
+}
+
+.contacts { display: grid; gap: 10px; align-content: start; color: var(--muted); }
+.contacts a { color: var(--fg); text-decoration: none; }
+.contacts a:hover { color: var(--accent); }
+.two { display: grid; gap: 44px; grid-template-columns: 1fr 1fr; align-items: start; }
+
+footer {
+  padding: 34px 0; border-top: 1px solid var(--border);
+  color: var(--muted); font-size: 15px;
+  display: flex; gap: 16px; flex-wrap: wrap; justify-content: space-between;
+}
+
+@media (max-width: 760px) {
+  nav { display: none; }
+  section { padding: 56px 0; }
+  .hero { padding: 64px 0 56px; }
+  .two { grid-template-columns: 1fr; gap: 32px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; }
+}
+</style>
+</head>
+<body>
+<header><div class="wrap bar">
+  <span class="brand">Цветы за час</span>
+  <nav><a href="#s1">Как работаем</a><a href="#s3">Цены</a><a href="#s4">Заказ</a><a href="#s5">Зона доставки</a><a href="#form">Связаться</a></nav>
+</div></header>
+<section class="hero" id="s0"><div class="wrap"><h1>Доставим букет по Ярославлю за час</h1><p class="lead">Работаем круглосуточно. Букеты от 1900 руб, авторские композиции от 3500 руб.</p><a class="btn" href="#form">Заказать букет</a></div></section><section id="s1"><div class="wrap"><div class="sec-head"><h2>Букет приедет, пока повод ещё актуален</h2></div><div class="grid"><div class="card"><h3>Час на доставку</h3><p>Собираем и везём в течение часа после подтверждения заказа.</p></div>
+<div class="card"><h3>Круглосуточно</h3><p>Принимаем заказы и доставляем в любое время суток, без выходных.</p></div>
+<div class="card"><h3>Весь Ярославль</h3><p>Возим по городу: домой, в офис, в кафе, к подъезду или на работу.</p></div>
+<div class="card"><h3>Заказ в вотсапе</h3><p>Напишите в вотсап, пришлём фото букета перед отправкой курьеру.</p></div></div></div></section><section class="soft" id="s3"><div class="wrap"><div class="sec-head"><h2>Сколько стоит букет</h2></div><div class="grid price"><div class="card"><h3>Букет</h3><div class="amount">от 1900 руб</div><p>Готовые букеты из наличия, собираем и отправляем сразу.</p><ul><li>Доставка по Ярославлю за час</li><li>Круглосуточно</li></ul></div>
+<div class="card featured"><h3>Авторская композиция</h3><div class="amount">от 3500 руб</div><p>Собираем под повод и ваши пожелания по цвету и настроению.</p><ul><li>Согласуем состав</li><li>Фото перед отправкой</li></ul></div>
+<div class="card"><h3>Подписка</h3><div class="amount">от 6000 руб в месяц</div><p>Еженедельные букеты по одному адресу, каждую неделю новые цветы.</p><ul><li>4 букета в месяц</li><li>Удобный день доставки</li></ul></div></div></div></section><section id="s4"><div class="wrap"><div class="sec-head"><h2>От заявки до букета в руках</h2></div><div class="grid steps"><div class="card"><h3>Оставляете заявку</h3><p>Через форму на странице, по телефону или в вотсапе.</p></div>
+<div class="card"><h3>Подтверждаем детали</h3><p>Уточняем букет, адрес и время, называем итоговую стоимость.</p></div>
+<div class="card"><h3>Собираем букет</h3><p>Флорист собирает композицию и присылает фото перед отправкой.</p></div>
+<div class="card"><h3>Курьер везёт</h3><p>Доставляем по Ярославлю в течение часа, в любое время суток.</p></div></div></div></section><section class="soft compact" id="s5"><div class="wrap"><div class="sec-head"><h2>Доставляем по Ярославлю</h2><p>Зона доставки - город Ярославль. Час на доставку считаем с момента, когда вы подтвердили заказ. Работаем круглосуточно, поэтому ночной заказ поедет так же быстро, как дневной. Если адрес за городом, напишите в вотсап - обсудим отдельно.</p></div></div></section>
+
+<section class="soft" id="form"><div class="wrap">
+  <div class="two">
+    <div>
+      <h2>Заказать букет</h2>
+      <p class="hint">Оставьте имя и телефон, перезвоним и уточним детали заказа.</p>
+      <form novalidate data-endpoint="https://formsubmit.co/ajax/order@example.ru">
+        <div><label for="f-name">Как вас зовут</label>
+          <input id="f-name" name="name" required autocomplete="name"></div>
+        <div><label for="f-contact">Телефон или почта</label>
+          <input id="f-contact" name="contact" required autocomplete="tel"></div>
+        <div><label for="f-msg">Что нужно сделать</label>
+          <textarea id="f-msg" name="message"></textarea></div>
+        <button class="btn" type="submit">Отправить</button>
+        <p class="err">Не удалось отправить. Проверьте интернет или напишите нам напрямую.</p>
+      </form>
+      <div class="ok">Спасибо, заявка принята. Свяжемся с вами в ближайшее время.</div>
+    </div>
+    <div><div class="contacts"><div>Телефон: <a href="tel:+74852778899">+7 4852 77-88-99</a></div><div>Почта: <a href="mailto:order@example.ru">order@example.ru</a></div><div>Адрес: Ярославль</div><div>Часы работы: Круглосуточно</div></div></div>
+  </div>
+</div></section>
+<footer><div class="wrap" style="display:flex;gap:16px;flex-wrap:wrap;
+  justify-content:space-between;width:min(1120px,100% - 40px)">
+  <span>Цветы за час</span><span>© 2026</span>
+</div></footer>
+<script>
+document.querySelectorAll('form').forEach(function (form) {
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    var url = form.dataset.endpoint;
+    var done = function () { form.classList.add('sent'); };
+    if (!url) { done(); return; }
+
+    var button = form.querySelector('button[type=submit]');
+    var label = button ? button.textContent : '';
+    if (button) { button.disabled = true; button.textContent = 'Отправляю...'; }
+
+    fetch(url, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+      body: JSON.stringify(Object.fromEntries(new FormData(form)))
+    }).then(function (r) {
+      if (!r.ok) { throw new Error(r.status); }
+      done();
+    }).catch(function () {
+      var box = form.querySelector('.err');
+      if (box) { box.style.display = 'block'; }
+      if (button) { button.disabled = false; button.textContent = label; }
+    });
+  });
+});
+</script>
+</body>
+</html>

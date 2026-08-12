@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Букеты за час — анимированный баннер</title>
+<style>
+  :root{
+    --bg-1:#FDF9F6;
+    --bg-2:#F2ECE7;
+    --petal-back:#EFB7C3;
+    --petal-front:#F9D9DF;
+    --core:#F2DCAC;
+    --core-in:#E7C689;
+    --stem:#9DBBA0;
+    --leaf:#AFCBAF;
+    --ink:#3F3A36;
+    --btn:#C4818E;
+    --btn-hover:#B36F7E;
+    --loop:6s;
+    --ease:cubic-bezier(.34,.9,.3,1);
+  }
+
+  *{box-sizing:border-box}
+
+  html,body{height:100%}
+  body{
+    margin:0;
+    padding:24px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#EFEAE5;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- баннер 1200×400 ---------- */
+  .banner{
+    position:relative;
+    width:min(1200px,100%);
+    aspect-ratio:1200/400;
+    container-type:inline-size;
+    overflow:hidden;
+    border-radius:28px;
+    background:linear-gradient(120deg,var(--bg-1) 0%,var(--bg-2) 100%);
+    box-shadow:0 18px 40px -22px rgba(74,58,52,.45), 0 1px 0 rgba(255,255,255,.7) inset;
+    isolation:isolate;
+  }
+
+  /* мягкие пастельные пятна фона */
+  .banner::before,
+  .banner::after{
+    content:"";
+    position:absolute;
+    z-index:0;
+    border-radius:50%;
+    filter:blur(38px);
+    pointer-events:none;
+  }
+  .banner::before{
+    width:46cqw;height:46cqw;
+    left:-8cqw;top:-14cqw;
+    background:radial-gradient(circle,rgba(240,196,206,.55),rgba(240,196,206,0) 70%);
+    animation:drift-a var(--loop) ease-in-out infinite;
+  }
+  .banner::after{
+    width:40cqw;height:40cqw;
+    right:-6cqw;bottom:-16cqw;
+    background:radial-gradient(circle,rgba(180,206,183,.45),rgba(180,206,183,0) 70%);
+    animation:drift-b var(--loop) ease-in-out infinite;
+  }
+  @keyframes drift-a{
+    0%,100%{transform:translate3d(0,0,0) scale(1)}
+    50%{transform:translate3d(2cqw,1.4cqw,0) scale(1.06)}
+  }
+  @keyframes drift-b{
+    0%,100%{transform:translate3d(0,0,0) scale(1)}
+    50%{transform:translate3d(-2cqw,-1.2cqw,0) scale(1.05)}
+  }
+
+  .stage{
+    position:relative;
+    z-index:1;
+    height:100%;
+    display:flex;
+    align-items:center;
+    gap:2cqw;
+    padding:0 6cqw 0 3cqw;
+  }
+
+  /* ---------- цветок ---------- */
+  .art{
+    flex:0 0 auto;
+    width:32cqw;
+    height:auto;
+    display:block;
+    overflow:visible;
+  }
+
+  .plant{
+    transform-box:view-box;
+    transform-origin:230px 372px;
+    animation:sway var(--loop) ease-in-out infinite;
+  }
+  @keyframes sway{
+    0%,38%{transform:rotate(0deg)}
+    56%{transform:rotate(1.3deg)}
+    74%{transform:rotate(-1.1deg)}
+    88%,100%{transform:rotate(0deg)}
+  }
+
+  .stem{
+    fill:none;
+    stroke:var(--stem);
+    stroke-width:7;
+    stroke-linecap:round;
+    stroke-dasharray:1;
+    stroke-dashoffset:1;
+    animation:grow var(--loop) var(--ease) infinite;
+  }
+  @keyframes grow{
+    0%,4%{stroke-dashoffset:1}
+    26%{stroke-dashoffset:0}
+    88%{stroke-dashoffset:0}
+    97%,100%{stroke-dashoffset:1}
+  }
+
+  .leaf{
+    fill:var(--leaf);
+    opacity:0;
+    transform-box:view-box;
+    animation:leaf-in var(--loop) var(--ease) infinite;
+  }
+  .leaf--l{transform-origin:228px 266px}
+  .leaf--r{transform-origin:228px 302px; animation-delay:.18s}
+  @keyframes leaf-in{
+    0%,18%{opacity:0;transform:scale(.05) rotate(-6deg)}
+    33%{opacity:1;transform:scale(1.06) rotate(0deg)}
+    39%,86%{opacity:1;transform:scale(1) rotate(0deg)}
+    95%,100%{opacity:0;transform:scale(.05) rotate(-6deg)}
+  }
+
+  .bud{
+    fill:#E9AEBC;
+    opacity:0;
+    transform-box:view-box;
+    transform-origin:230px 150px;
+    animation:bud var(--loop) var(--ease) infinite;
+  }
+  @keyframes bud{
+    0%,12%{opacity:0;transform:scale(.15)}
+    22%{opacity:1;transform:scale(1)}
+    28%{opacity:1;transform:scale(1.06)}
+    36%,90%{opacity:0;transform:scale(.5)}
+    100%{opacity:0;transform:scale(.15)}
+  }
+
+  .petal{
+    transform-box:view-box;
+    transform-origin:230px 150px;
+    opacity:0;
+  }
+  .petal--back{
+    fill:var(--petal-back);
+    animation:open-back var(--loop) var(--ease) infinite;
+  }
+  .petal--front{
+    fill:var(--petal-front);
+    animation:open-front var(--loop) var(--ease) infinite;
+  }
+  @keyframes open-back{
+    0%,20%{opacity:0;transform:rotate(calc(var(--a) - 26deg)) scale(.1)}
+    26%{opacity:1}
+    44%{opacity:1;transform:rotate(calc(var(--a) + 3deg)) scale(1.05)}
+    52%,84%{opacity:1;transform:rotate(var(--a)) scale(1)}
+    93%,100%{opacity:0;transform:rotate(calc(var(--a) - 26deg)) scale(.1)}
+  }
+  @keyframes open-front{
+    0%,26%{opacity:0;transform:rotate(calc(var(--a) - 18deg)) scale(.1)}
+    32%{opacity:1}
+    50%{opacity:1;transform:rotate(calc(var(--a) + 2deg)) scale(1.04)}
+    57%,84%{opacity:1;transform:rotate(var(--a)) scale(1)}
+    91%,100%{opacity:0;transform:rotate(calc(var(--a) - 18deg)) scale(.1)}
+  }
+
+  .core{
+    transform-box:view-box;
+    transform-origin:230px 150px;
+    opacity:0;
+    animation:core var(--loop) var(--ease) infinite;
+  }
+  @keyframes core{
+    0%,28%{opacity:0;transform:scale(.1)}
+    40%{opacity:1;transform:scale(1.12)}
+    46%{opacity:1;transform:scale(1)}
+    64%{opacity:1;transform:scale(1.05)}
+    78%,86%{opacity:1;transform:scale(1)}
+    92%,100%{opacity:0;transform:scale(.1)}
+  }
+
+  /* ---------- текст и кнопка ---------- */
+  .copy{
+    flex:1 1 auto;
+    min-width:0;
+  }
+
+  .title{
+    margin:0;
+    font-size:clamp(26px,5.5cqw,66px);
+    line-height:1.04;
+    font-weight:650;
+    letter-spacing:-.025em;
+    color:var(--ink);
+    opacity:0;
+    animation:title-in var(--loop) var(--ease) infinite;
+  }
+  @keyframes title-in{
+    0%,32%{opacity:0;transform:translateY(.9cqw)}
+    46%,85%{opacity:1;transform:translateY(0)}
+    94%,100%{opacity:0;transform:translateY(-.5cqw)}
+  }
+
+  .btn-wrap{
+    display:inline-block;
+    margin-top:2.2cqw;
+    opacity:0;
+    animation:btn-in var(--loop) var(--ease) infinite;
+  }
+  @keyframes btn-in{
+    0%,40%{opacity:0;transform:translateY(1cqw) scale(.96)}
+    54%,84%{opacity:1;transform:translateY(0) scale(1)}
+    92%,100%{opacity:0;transform:translateY(-.4cqw) scale(.98)}
+  }
+
+  .btn{
+    display:inline-block;
+    padding:1.35cqw 3.4cqw;
+    border-radius:999px;
+    background:var(--btn);
+    color:#fff;
+    font-size:clamp(15px,1.75cqw,21px);
+    font-weight:600;
+    letter-spacing:.01em;
+    text-decoration:none;
+    white-space:nowrap;
+    box-shadow:0 10px 22px -12px rgba(120,60,72,.75);
+    transition:background-color .25s ease, transform .25s ease, box-shadow .25s ease;
+  }
+  .btn:hover{
+    background:var(--btn-hover);
+    transform:translateY(-2px);
+    box-shadow:0 16px 26px -12px rgba(120,60,72,.8);
+  }
+  .btn:active{
+    transform:translateY(0);
+    box-shadow:0 6px 14px -10px rgba(120,60,72,.8);
+  }
+  .btn:focus-visible{
+    outline:3px solid #8E9F86;
+    outline-offset:3px;
+  }
+
+  /* ---------- мобильная раскладка ---------- */
+  @media (max-width:760px){
+    body{padding:16px 12px}
+    .banner{aspect-ratio:auto;border-radius:22px}
+    .stage{
+      flex-direction:column;
+      justify-content:center;
+      text-align:center;
+      gap:1cqw;
+      padding:7cqw 6cqw 8cqw;
+    }
+    .art{width:46cqw}
+    .title{font-size:clamp(24px,8.6cqw,40px)}
+    .btn-wrap{margin-top:5cqw}
+    .btn{padding:3.4cqw 8cqw;font-size:max(15px,4.2cqw)}
+  }
+
+  /* ---------- статичный кадр без анимации ---------- */
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{
+      animation:none !important;
+      transition:none !important;
+    }
+    .stem{stroke-dashoffset:0}
+    .leaf{opacity:1;transform:none}
+    .bud{opacity:0}
+    .petal{opacity:1;transform:rotate(var(--a)) scale(1)}
+    .core{opacity:1;transform:none}
+    .title,.btn-wrap{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+  <div class="banner">
+    <div class="stage">
+
+      <svg class="art" viewBox="0 0 460 400" aria-hidden="true" focusable="false">
+        <g class="plant">
+          <path class="stem" pathLength="1" d="M230 150 C 238 216 218 282 230 372"/>
+
+          <path class="leaf leaf--l" d="M228 266 C 198 246 164 254 154 284 C 190 300 218 292 228 266 Z"/>
+          <path class="leaf leaf--r" d="M228 302 C 258 286 292 296 300 326 C 264 338 238 328 228 302 Z"/>
+
+          <ellipse class="bud" cx="230" cy="132" rx="16" ry="26"/>
+
+          <!-- нижний ряд лепестков -->
+          <ellipse class="petal petal--back" style="--a:0deg"   cx="230" cy="78" rx="30" ry="66"/>
+          <ellipse class="petal petal--back" style="--a:45deg"  cx="230" cy="78" rx="30" ry="66"/>
+          <ellipse class="petal petal--back" style="--a:90deg"  cx="230" cy="78" rx="30" ry="66"/>
+          <ellipse class="petal petal--back" style="--a:135deg" cx="230" cy="78" rx="30" ry="66"/>
+          <ellipse class="petal petal--back" style="--a:180deg" cx="230" cy="78" rx="30" ry="66"/>
+          <ellipse class="petal petal--back" style="--a:225deg" cx="230" cy="78" rx="30" ry="66"/>
+          <ellipse class="petal petal--back" style="--a:270deg" cx="230" cy="78" rx="30" ry="66"/>
+          <ellipse class="petal petal--back" style="--a:315deg" cx="230" cy="78" rx="30" ry="66"/>
+
+          <!-- верхний ряд лепестков -->
+          <ellipse class="petal petal--front" style="--a:30deg"  cx="230" cy="106" rx="22" ry="46"/>
+          <ellipse class="petal petal--front" style="--a:90deg"  cx="230" cy="106" rx="22" ry="46"/>
+          <ellipse class="petal petal--front" style="--a:150deg" cx="230" cy="106" rx="22" ry="46"/>
+          <ellipse class="petal petal--front" style="--a:210deg" cx="230" cy="106" rx="22" ry="46"/>
+          <ellipse class="petal petal--front" style="--a:270deg" cx="230" cy="106" rx="22" ry="46"/>
+          <ellipse class="petal petal--front" style="--a:330deg" cx="230" cy="106" rx="22" ry="46"/>
+
+          <g class="core">
+            <circle cx="230" cy="150" r="27" fill="var(--core)"/>
+            <circle cx="230" cy="150" r="14" fill="var(--core-in)"/>
+          </g>
+        </g>
+      </svg>
+
+      <div class="copy">
+        <h1 class="title">Букеты&nbsp;за&nbsp;час</h1>
+        <span class="btn-wrap"><a class="btn" href="#">Заказать</a></span>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>

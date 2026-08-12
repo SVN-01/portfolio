@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тёплый угол — логотип кофейни</title>
+<style>
+  :root{
+    --cream:#F7EDE0;
+    --cream-deep:#EFE1CE;
+    --terracotta:#C25B3E;
+    --terracotta-light:#E08A6A;
+    --brown:#3B2A22;
+    --brown-deep:#241812;
+    --muted:#7A6455;
+    --serif: Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", "Times New Roman", serif;
+    --sans: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--brown);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.6;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:clamp(24px,5vw,64px) clamp(16px,4vw,32px) 72px}
+
+  header.page{border-bottom:1px solid rgba(59,42,34,.15);padding-bottom:clamp(20px,4vw,32px);margin-bottom:clamp(28px,5vw,48px)}
+  .page h1{font-family:var(--serif);font-size:clamp(28px,5vw,42px);line-height:1.15;margin:18px 0 8px;font-weight:400}
+  .page p{margin:0;max-width:62ch;color:var(--muted)}
+  .eyebrow{font-family:var(--serif);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--terracotta);margin:0}
+
+  section{margin:0 0 clamp(36px,6vw,64px)}
+  h2{font-family:var(--serif);font-weight:400;font-size:clamp(20px,3vw,26px);margin:0 0 6px}
+  .section-note{margin:0 0 20px;color:var(--muted);max-width:62ch;font-size:15px}
+
+  .grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+  .card{
+    background:#fff;
+    border:1px solid rgba(59,42,34,.12);
+    border-radius:var(--radius);
+    padding:28px 24px 18px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+    min-height:210px;
+  }
+  .card--cream{background:var(--cream-deep);border-color:rgba(59,42,34,.14)}
+  .card--dark{background:var(--brown-deep);border-color:rgba(247,237,224,.14)}
+  .card--dark .label{color:rgba(247,237,224,.6)}
+  .card--dark svg{color:var(--cream)}
+  .card--dark .tagline{fill:var(--terracotta-light)}
+  .card--terracotta{background:var(--terracotta);border-color:rgba(36,24,18,.2)}
+  .card--terracotta svg{color:var(--cream)}
+  .card--terracotta .label{color:rgba(255,255,255,.75)}
+
+  .label{
+    font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--muted);margin-top:auto;
+  }
+
+  svg{display:block;color:var(--brown)}
+  .lockup{width:100%;height:auto;max-width:300px}
+  .lockup--stacked{max-width:230px}
+  .icon-96{width:96px;height:96px}
+
+  .wordmark{font-family:var(--serif);font-size:34px;fill:currentColor}
+  .wordmark--big{font-size:36px}
+  .tagline{font-family:var(--serif);font-size:10.5px;letter-spacing:3.2px;fill:var(--terracotta)}
+  .tagline--stacked{font-size:11px;letter-spacing:3.6px}
+
+  .sizes{display:flex;flex-wrap:wrap;align-items:flex-end;gap:clamp(18px,4vw,40px)}
+  .size{display:flex;flex-direction:column;align-items:center;gap:10px}
+  .size span{font-size:11px;letter-spacing:.1em;color:var(--muted)}
+
+  .palette{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+  .swatch{
+    border:0;font:inherit;text-align:left;cursor:pointer;
+    border-radius:var(--radius);overflow:hidden;padding:0;background:none;color:inherit;
+  }
+  .swatch .chip{height:88px;border-radius:var(--radius) var(--radius) 0 0;border:1px solid rgba(59,42,34,.12);border-bottom:0}
+  .swatch .meta{padding:10px 12px 14px;border:1px solid rgba(59,42,34,.12);border-top:0;border-radius:0 0 var(--radius) var(--radius);background:#fff}
+  .swatch b{display:block;font-weight:600;font-size:14px}
+  .swatch code{font-family:ui-monospace,"SFMono-Regular",Consolas,monospace;font-size:13px;color:var(--muted)}
+  .swatch:focus-visible{outline:2px solid var(--terracotta);outline-offset:3px}
+
+  .type-sample{background:#fff;border:1px solid rgba(59,42,34,.12);border-radius:var(--radius);padding:24px}
+  .type-sample .big{font-family:var(--serif);font-size:clamp(30px,6vw,52px);line-height:1.1;margin:0 0 10px;font-weight:400}
+  .type-sample .caps{font-family:var(--serif);font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--terracotta);margin:0 0 18px}
+  .type-sample p{margin:0;color:var(--muted);max-width:60ch}
+  .type-sample code{font-family:ui-monospace,"SFMono-Regular",Consolas,monospace;font-size:13px;color:var(--brown);background:var(--cream);padding:2px 6px;border-radius:5px}
+
+  ul.rules{margin:0;padding-left:20px;color:var(--muted);max-width:62ch}
+  ul.rules li{margin-bottom:6px}
+  ul.rules b{color:var(--brown);font-weight:600}
+
+  footer.page{border-top:1px solid rgba(59,42,34,.15);padding-top:24px;color:var(--muted);font-size:14px;display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+
+  .toast{
+    position:fixed;left:50%;bottom:24px;transform:translate(-50%,16px);
+    background:var(--brown);color:var(--cream);padding:10px 18px;border-radius:999px;
+    font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s ease, transform .2s ease;
+  }
+  .toast.is-visible{opacity:1;transform:translate(-50%,0)}
+
+  @media (max-width:520px){
+    .card{padding:22px 16px 14px;min-height:180px}
+    .sizes{gap:20px}
+  }
+  @media print{
+    body{background:#fff}
+    .card--dark{background:#fff}
+    .toast{display:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= библиотека форм ================= -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <g id="mark-color">
+      <path fill="none" stroke="#C25B3E" stroke-width="4.6" stroke-linecap="round" d="M42 30.5c8.5 0 8.5 10 0 10"/>
+      <path fill="#C25B3E" d="M13 45V30a15 15 0 0 1 30 0v15Z"/>
+      <path fill="#F7EDE0" d="M16.5 41.5V30a11.5 11.5 0 0 1 23 0v11.5Z"/>
+      <path fill="none" stroke="#3B2A22" stroke-width="2.4" stroke-linecap="round" d="M28 19v22.5M17 31h22"/>
+      <rect x="9" y="46.6" width="44" height="3.6" rx="1.8" fill="currentColor"/>
+    </g>
+    <g id="mark-line" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke-width="3" d="M41.5 31c8 0 8 9.5 0 9.5"/>
+      <path stroke-width="3" d="M14.5 45V30a13.5 13.5 0 0 1 27 0v15"/>
+      <path stroke-width="2.2" d="M28 18.5v26.5M15.5 31h25"/>
+      <path stroke-width="3" d="M12 49.5h40"/>
+    </g>
+  </defs>
+</svg>
+
+<div class="wrap">
+
+  <header class="page">
+    <p class="eyebrow">Фирменный стиль · 2026</p>
+    <h1>Тёплый угол — кофейня на углу старого дома</h1>
+    <p>Знак — арочное окно с тёплым светом, у которого выросла ручка от чашки. Подоконник держит композицию и работает как блюдце. Форма простая: читается на вывеске, на стакане 8&nbsp;унций и на печати в углу чека.</p>
+  </header>
+
+  <!-- ============ светлый фон ============ -->
+  <section>
+    <h2>На светлом фоне</h2>
+    <p class="section-note">Основные версии на кремовом и белом. Кремовый — базовый фон бренда, он же цвет света в окне.</p>
+    <div class="grid">
+
+      <div class="card card--cream">
+        <svg class="lockup" viewBox="0 0 304 88" role="img" aria-label="Тёплый угол, горизонтальный логотип">
+          <use href="#mark-color" transform="translate(6 14)"/>
+          <text class="wordmark" x="78" y="49">Тёплый угол</text>
+          <text class="tagline" x="80" y="69">КОФЕ · КНИГИ · ТИШИНА</text>
+        </svg>
+        <span class="label">logo-horizontal.svg</span>
+      </div>
+
+      <div class="card card--cream">
+        <svg class="lockup lockup--stacked" viewBox="0 0 260 156" role="img" aria-label="Тёплый угол, вертикальный логотип">
+          <use href="#mark-color" transform="translate(83.5 -8) scale(1.5)"/>
+          <text class="wordmark wordmark--big" x="130" y="110" text-anchor="middle">Тёплый угол</text>
+          <text class="tagline tagline--stacked" x="130" y="134" text-anchor="middle">КОФЕ · КНИГИ · ТИШИНА</text>
+        </svg>
+        <span class="label">logo-stacked.svg</span>
+      </div>
+
+      <div class="card">
+        <svg class="icon-96" viewBox="0 0 64 64" role="img" aria-label="Тёплый угол, знак">
+          <use href="#mark-color"/>
+        </svg>
+        <span class="label">logo-icon.svg</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ тёмный фон ============ -->
+  <section>
+    <h2>На тёмном фоне</h2>
+    <p class="section-note">На глубоком коричневом подоконник и надпись становятся кремовыми, свет в окне остаётся тёплым. Терракота в подписи чуть светлеет, чтобы не проваливаться.</p>
+    <div class="grid">
+
+      <div class="card card--dark">
+        <svg class="lockup" viewBox="0 0 304 88" role="img" aria-label="Тёплый угол, горизонтальный логотип на тёмном фоне">
+          <use href="#mark-color" transform="translate(6 14)"/>
+          <text class="wordmark" x="78" y="49">Тёплый угол</text>
+          <text class="tagline" x="80" y="69">КОФЕ · КНИГИ · ТИШИНА</text>
+        </svg>
+        <span class="label">на #241812</span>
+      </div>
+
+      <div class="card card--dark">
+        <svg class="lockup lockup--stacked" viewBox="0 0 260 156" role="img" aria-label="Тёплый угол, вертикальный логотип на тёмном фоне">
+          <use href="#mark-color" transform="translate(83.5 -8) scale(1.5)"/>
+          <text class="wordmark wordmark--big" x="130" y="110" text-anchor="middle">Тёплый угол</text>
+          <text class="tagline tagline--stacked" x="130" y="134" text-anchor="middle">КОФЕ · КНИГИ · ТИШИНА</text>
+        </svg>
+        <span class="label">вывеска, крафт-стакан</span>
+      </div>
+
+      <div class="card card--terracotta">
+        <svg class="icon-96" viewBox="0 0 64 64" role="img" aria-label="Контурный знак на терракотовом фоне">
+          <use href="#mark-line"/>
+        </svg>
+        <span class="label">контур на терракоте</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ контурный ============ -->
+  <section>
+    <h2>Контурный вариант</h2>
+    <p class="section-note">Одна краска: тиснение на крафте, штамп карты постоянного гостя, гравировка на деревянной табличке. Минимальная толщина линии выдерживает печать от 12&nbsp;мм.</p>
+    <div class="grid">
+
+      <div class="card">
+        <svg class="icon-96" viewBox="0 0 64 64" role="img" aria-label="Контурный знак">
+          <use href="#mark-line"/>
+        </svg>
+        <span class="label">logo-outlined.svg</span>
+      </div>
+
+      <div class="card card--cream">
+        <svg class="lockup" viewBox="0 0 304 88" role="img" aria-label="Контурный горизонтальный логотип">
+          <use href="#mark-line" transform="translate(6 14)"/>
+          <text class="wordmark" x="78" y="49">Тёплый угол</text>
+          <text class="tagline" x="80" y="69" fill="currentColor">КОФЕ · КНИГИ · ТИШИНА</text>
+        </svg>
+        <span class="label">один цвет, штамп</span>
+      </div>
+
+      <div class="card card--dark">
+        <svg class="lockup lockup--stacked" viewBox="0 0 260 156" role="img" aria-label="Контурный вертикальный логотип на тёмном фоне">
+          <use href="#mark-line" transform="translate(83.5 -8) scale(1.5)"/>
+          <text class="wordmark wordmark--big" x="130" y="110" text-anchor="middle">Тёплый угол</text>
+          <text class="tagline tagline--stacked" x="130" y="134" text-anchor="middle" fill="currentColor">КОФЕ · КНИГИ · ТИШИНА</text>
+        </svg>
+        <span class="label">выворотка кремовым</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ размеры ============ -->
+  <section>
+    <h2>Проверка на малых размерах</h2>
+    <p class="section-note">Знак остаётся узнаваемым до 16&nbsp;px: арка, перекрестье и ручка не слипаются. Ниже 24&nbsp;px рекомендуем цветную версию без подписи.</p>
+    <div class="card card--cream" style="align-items:flex-start">
+      <div class="sizes">
+        <div class="size"><svg viewBox="0 0 64 64" width="96" height="96"><use href="#mark-color"/></svg><span>96 px</span></div>
+        <div class="size"><svg viewBox="0 0 64 64" width="64" height="64"><use href="#mark-color"/></svg><span>64 px</span></div>
+        <div class="size"><svg viewBox="0 0 64 64" width="48" height="48"><use href="#mark-color"/></svg><span>48 px</span></div>
+        <div class="size"><svg viewBox="0 0 64 64" width="32" height="32"><use href="#mark-color"/></svg><span>32 px</span></div>
+        <div class="size"><svg viewBox="0 0 64 64" width="24" height="24"><use href="#mark-color"/></svg><span>24 px</span></div>
+        <div class="size"><svg viewBox="0 0 64 64" width="16" height="16"><use href="#mark-color"/></svg><span>16 px</span></div>
+      </div>
+      <span class="label">favicon · аватар · наклейка на стакан</span>
+    </div>
+  </section>
+
+  <!-- ============ палитра ============ -->
+  <section>
+    <h2>Палитра</h2>
+    <p class="section-note">Четыре цвета, больше не нужно. Нажмите на образец, чтобы скопировать код.</p>
+    <div class="palette">
+      <button class="swatch" type="button" data-hex="#C25B3E">
+        <div class="chip" style="background:#C25B3E"></div>
+        <div class="meta"><b>Терракота</b><code>#C25B3E</code></div>
+      </button>
+      <button class="swatch" type="button" data-hex="#3B2A22">
+        <div class="chip" style="background:#3B2A22"></div>
+        <div class="meta"><b>Обжаренный кофе</b><code>#3B2A22</code></div>
+      </button>
+      <button class="swatch" type="button" data-hex="#F7EDE0">
+        <div class="chip" style="background:#F7EDE0"></div>
+        <div class="meta"><b>Кремовый свет</b><code>#F7EDE0</code></div>
+      </button>
+      <button class="swatch" type="button" data-hex="#241812">
+        <div class="chip" style="background:#241812"></div>
+        <div class="meta"><b>Тёмное дерево</b><code>#241812</code></div>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ шрифт ============ -->
+  <section>
+    <h2>Шрифт</h2>
+    <p class="section-note">Системная антиква с плотными засечками: тёплая, без манерности, хорошо читается в мелком кегле на меловой доске и на чеке.</p>
+    <div class="type-sample">
+      <p class="caps">КОФЕ · КНИГИ · ТИШИНА</p>
+      <p class="big">Тёплый угол</p>
+      <p>Начертание: <code>Georgia</code>, далее <code>Iowan Old Style</code>, <code>Palatino Linotype</code>, <code>Book Antiqua</code>, системная антиква. Название — обычный кегль без разрядки; подпись — прописные с трекингом 0,3&nbsp;em терракотовым.</p>
+    </div>
+  </section>
+
+  <!-- ============ правила ============ -->
+  <section>
+    <h2>Как пользоваться</h2>
+    <ul class="rules">
+      <li><b>Охранное поле</b> — не меньше высоты окна в знаке со всех сторон.</li>
+      <li><b>Минимальный размер:</b> знак — 12&nbsp;мм в печати и 16&nbsp;px на экране, горизонтальный блок — 40&nbsp;мм по ширине.</li>
+      <li><b>Фон:</b> кремовый, белый, глубокий коричневый или терракотовый. На фотографии — только контурная версия.</li>
+      <li><b>Нельзя:</b> менять пропорции, поворачивать знак, добавлять тени и градиенты, перекрашивать свет в окне в холодный оттенок.</li>
+      <li><b>Форматы:</b> SVG для всего, что печатается и масштабируется; для соцсетей экспортируйте PNG из <code>logo-icon.svg</code> с прозрачным фоном.</li>
+    </ul>
+  </section>
+
+  <footer class="page">
+    <span>Тёплый угол · кофейня · ул. Садовая, 12, вход со двора</span>
+    <span>Логотип и правила использования, 2026</span>
+  </footer>
+
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+  (function () {
+    var toast = document.getElementById('toast');
+    var timer = null;
+
+    function showToast(text) {
+      toast.textContent = text;
+      toast.classList.add('is-visible');
+      if (timer) { clearTimeout(timer); }
+      timer = setTimeout(function () { toast.classList.remove('is-visible'); }, 1800);
+    }
+
+    function copy(text) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(
+          function () { showToast('Скопировано: ' + text); },
+          function () { showToast('Код цвета: ' + text); }
+        );
+      } else {
+        showToast('Код цвета: ' + text);
+      }
+    }
+
+    var swatches = document.querySelectorAll('.swatch');
+    for (var i = 0; i < swatches.length; i++) {
+      swatches[i].addEventListener('click', function () {
+        copy(this.getAttribute('data-hex'));
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>

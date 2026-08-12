@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Репетитор по математике - подготовка к ОГЭ и ЕГЭ онлайн</title>
+<style>
+:root {
+  --accent: #3f6fa8;
+  --accent-dark: #345b8a;
+  --accent-rgb: 63, 111, 168;
+  --bg: #ffffff;
+  --bg-soft: #f5f7fa;
+  --fg: #16202e;
+  --muted: #5c6b7f;
+  --border: #e2e8f0;
+  --radius: 14px;
+  --shadow: 0 10px 30px rgba(20, 30, 50, .08);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font: 17px/1.6 -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--fg);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; }
+.wrap { width: min(1120px, 100% - 40px); margin-inline: auto; }
+
+header {
+  position: sticky; top: 0; z-index: 10;
+  background: rgba(255,255,255,.88);
+  backdrop-filter: saturate(160%) blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.bar { display: flex; align-items: center; gap: 24px; height: 68px; }
+.brand { font-weight: 700; font-size: 19px; letter-spacing: -.02em; }
+nav { margin-left: auto; display: flex; gap: 22px; flex-wrap: wrap; }
+nav a { color: var(--muted); text-decoration: none; font-size: 15px; }
+nav a:hover { color: var(--fg); }
+
+.btn {
+  display: inline-block; padding: 14px 28px; border-radius: 10px;
+  background: var(--accent); color: #fff; text-decoration: none;
+  font-weight: 600; font-size: 16px; border: 0; cursor: pointer;
+  transition: background .15s ease, transform .15s ease;
+}
+.btn:hover { background: var(--accent-dark); transform: translateY(-1px); }
+.btn-ghost {
+  background: transparent; color: var(--accent);
+  border: 1px solid var(--accent); padding: 12px 24px;
+}
+.btn-ghost:hover { background: rgba(var(--accent-rgb), .08); transform: none; }
+
+section { padding: 76px 0; }
+section.soft { background: var(--bg-soft); }
+/* блок из одного заголовка: на полной высоте он выглядит дырой в странице */
+section.compact { padding: 40px 0; }
+section.compact .sec-head { margin-bottom: 0; }
+section.compact h2 { font-size: clamp(21px, 2.4vw, 27px); margin: 0; }
+h1, h2, h3 { line-height: 1.25; letter-spacing: -.02em; margin: 0 0 14px; }
+h1 { font-size: clamp(32px, 5vw, 52px); }
+h2 { font-size: clamp(26px, 3.4vw, 36px); }
+h3 { font-size: 19px; }
+.lead { font-size: 19px; color: var(--muted); max-width: 62ch; margin: 0 0 28px; }
+.sec-head { max-width: 62ch; margin-bottom: 38px; }
+.sec-head p { color: var(--muted); margin: 0; }
+
+.hero { padding: 96px 0 88px; background:
+  radial-gradient(1000px 400px at 15% -10%, rgba(var(--accent-rgb), .14), transparent 70%),
+  var(--bg); }
+.hero h1 { max-width: 18ch; }
+
+.grid { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.card {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 26px;
+}
+.card p { color: var(--muted); margin: 0; }
+section.soft .card { background: #fff; }
+
+.steps { counter-reset: step; }
+.steps .card { position: relative; padding-top: 30px; }
+.steps .card::before {
+  counter-increment: step; content: counter(step);
+  display: flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; margin-bottom: 14px; border-radius: 50%;
+  background: rgba(var(--accent-rgb), .12); color: var(--accent); font-weight: 700;
+}
+
+.price .card { display: flex; flex-direction: column; }
+.price .amount { font-size: 30px; font-weight: 700; margin: 8px 0 4px; }
+.price ul { list-style: none; padding: 0; margin: 16px 0 0; color: var(--muted); }
+.price li { padding-left: 24px; position: relative; margin-bottom: 8px; }
+.price li::before {
+  content: "✓"; position: absolute; left: 0; color: var(--accent); font-weight: 700;
+}
+.card.featured { border-color: var(--accent); box-shadow: var(--shadow); }
+
+details {
+  border-bottom: 1px solid var(--border); padding: 18px 0;
+}
+details summary {
+  cursor: pointer; font-weight: 600; list-style: none;
+  display: flex; justify-content: space-between; gap: 16px;
+}
+details summary::-webkit-details-marker { display: none; }
+details summary::after { content: "+"; color: var(--accent); font-size: 22px; line-height: 1; }
+details[open] summary::after { content: "−"; }
+details p { color: var(--muted); margin: 12px 0 0; max-width: 72ch; }
+
+.gallery {
+  display: grid; gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+.gallery img {
+  width: 100%; aspect-ratio: 4 / 3; object-fit: cover;
+  border-radius: var(--radius); display: block;
+}
+
+blockquote {
+  margin: 0; padding: 24px 26px; background: var(--bg-soft);
+  border-left: 3px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0;
+}
+blockquote p { margin: 0 0 12px; }
+blockquote cite { color: var(--muted); font-style: normal; font-size: 15px; }
+
+form { display: grid; gap: 14px; max-width: 520px; }
+label { font-size: 14px; color: var(--muted); display: block; margin-bottom: 6px; }
+input, textarea {
+  width: 100%; padding: 13px 15px; font: inherit; color: var(--fg);
+  background: #fff; border: 1px solid var(--border); border-radius: 10px;
+}
+input:focus, textarea:focus {
+  outline: none; border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb), .16);
+}
+input:user-invalid { border-color: #d94040; }
+textarea { min-height: 110px; resize: vertical; }
+.hint { font-size: 14px; color: var(--muted); }
+.ok {
+  display: none; padding: 16px 18px; border-radius: 10px;
+  background: rgba(var(--accent-rgb), .1); color: var(--accent-dark); font-weight: 600;
+}
+form.sent { display: none; }
+form.sent + .ok { display: block; }
+.err {
+  display: none; color: #b23030; font-size: 15px;
+}
+
+.contacts { display: grid; gap: 10px; align-content: start; color: var(--muted); }
+.contacts a { color: var(--fg); text-decoration: none; }
+.contacts a:hover { color: var(--accent); }
+.two { display: grid; gap: 44px; grid-template-columns: 1fr 1fr; align-items: start; }
+
+footer {
+  padding: 34px 0; border-top: 1px solid var(--border);
+  color: var(--muted); font-size: 15px;
+  display: flex; gap: 16px; flex-wrap: wrap; justify-content: space-between;
+}
+
+@media (max-width: 760px) {
+  nav { display: none; }
+  section { padding: 56px 0; }
+  .hero { padding: 64px 0 56px; }
+  .two { grid-template-columns: 1fr; gap: 32px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; }
+}
+</style>
+</head>
+<body>
+<header><div class="wrap bar">
+  <span class="brand">Репетитор по математике</span>
+  <nav><a href="#s1">Занятия</a><a href="#s2">Результаты</a><a href="#s3">Цены</a><a href="#s4">Вопросы</a><a href="#form">Связаться</a></nav>
+</div></header>
+<section class="hero" id="s0"><div class="wrap"><h1>Готовлю к ОГЭ и ЕГЭ по математике онлайн</h1><p class="lead">Средний прирост баллов у учеников 23 за год, 97% сдают выше 70. Первый урок бесплатный - посмотрим, как идёт работа.</p><a class="btn" href="#form">Записаться на пробный урок</a></div></section><section id="s1"><div class="wrap"><div class="sec-head"><h2>Как проходит занятие</h2></div><div class="grid steps"><div class="card"><h3>Пробный урок</h3><p>Знакомимся, смотрим текущий уровень и разбираем, какие темы проседают. Бесплатно.</p></div>
+<div class="card"><h3>План подготовки</h3><p>Собираю программу под конкретный экзамен и срок, который остался до него.</p></div>
+<div class="card"><h3>Занятия онлайн</h3><p>Работаем по видеосвязи с доской: разбор теории, задачи, вопросы по ходу.</p></div>
+<div class="card"><h3>Домашняя работа</h3><p>После урока задания на закрепление, на следующем занятии разбираем ошибки.</p></div></div></div></section><section class="soft" id="s2"><div class="wrap"><div class="sec-head"><h2>Что получается у учеников</h2></div><div class="grid"><div class="card"><h3>+23 балла за год</h3><p>Средний прирост баллов у учеников 23 за год.</p></div>
+<div class="card"><h3>97% выше 70</h3><p>97% учеников сдают экзамен выше 70 баллов.</p></div>
+<div class="card"><h3>ОГЭ и ЕГЭ</h3><p>Готовлю к обоим экзаменам, программа собирается под нужный формат.</p></div></div></div></section><section id="s3"><div class="wrap"><div class="sec-head"><h2>Сколько стоит занятие</h2></div><div class="grid price"><div class="card"><h3>Пробный урок</h3><div class="amount">бесплатно</div><p>Знакомство и разбор текущего уровня.</p><ul><li>Онлайн</li><li>Без обязательств</li></ul></div>
+<div class="card"><h3>Разовое занятие</h3><div class="amount">2000 руб.</div><p>Одно занятие без пакета.</p><ul><li>Онлайн</li><li>Домашнее задание</li></ul></div>
+<div class="card featured"><h3>Пакет из 8 занятий</h3><div class="amount">14 000 руб.</div><p>Восемь занятий одним пакетом.</p><ul><li>Онлайн</li><li>Домашнее задание</li><li>План подготовки</li></ul></div></div></div></section><section class="soft" id="s4"><div class="wrap"><div class="sec-head"><h2>Что обычно спрашивают перед стартом</h2></div><details><summary>Можно ли перенести урок?</summary><p>Да. Напишите заранее, и мы подберём другое время в расписании.</p></details>
+<details><summary>Что нужно из техники?</summary><p>Компьютер или ноутбук с камерой, микрофоном и интернетом. Тетрадь и ручка под рукой.</p></details>
+<details><summary>Как оплачивать занятия?</summary><p>Разовое занятие или пакет из 8 занятий, оплата переводом до начала работы.</p></details></div></section>
+
+<section class="soft" id="form"><div class="wrap">
+  <div class="two">
+    <div>
+      <h2>Запись на бесплатный пробный урок</h2>
+      <p class="hint">Оставьте имя и телефон, я свяжусь с вами и предложу время.</p>
+      <form novalidate data-endpoint="https://formsubmit.co/ajax/mail@example.ru">
+        <div><label for="f-name">Как вас зовут</label>
+          <input id="f-name" name="name" required autocomplete="name"></div>
+        <div><label for="f-contact">Телефон или почта</label>
+          <input id="f-contact" name="contact" required autocomplete="tel"></div>
+        <div><label for="f-msg">Что нужно сделать</label>
+          <textarea id="f-msg" name="message"></textarea></div>
+        <button class="btn" type="submit">Отправить</button>
+        <p class="err">Не удалось отправить. Проверьте интернет или напишите нам напрямую.</p>
+      </form>
+      <div class="ok">Спасибо, заявка принята. Свяжемся с вами в ближайшее время.</div>
+    </div>
+    <div><div class="contacts"><div>Почта: <a href="mailto:mail@example.ru">mail@example.ru</a></div></div></div>
+  </div>
+</div></section>
+<footer><div class="wrap" style="display:flex;gap:16px;flex-wrap:wrap;
+  justify-content:space-between;width:min(1120px,100% - 40px)">
+  <span>Репетитор по математике</span><span>© 2026</span>
+</div></footer>
+<script>
+document.querySelectorAll('form').forEach(function (form) {
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    var url = form.dataset.endpoint;
+    var done = function () { form.classList.add('sent'); };
+    if (!url) { done(); return; }
+
+    var button = form.querySelector('button[type=submit]');
+    var label = button ? button.textContent : '';
+    if (button) { button.disabled = true; button.textContent = 'Отправляю...'; }
+
+    fetch(url, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+      body: JSON.stringify(Object.fromEntries(new FormData(form)))
+    }).then(function (r) {
+      if (!r.ok) { throw new Error(r.status); }
+      done();
+    }).catch(function () {
+      var box = form.querySelector('.err');
+      if (box) { box.style.display = 'block'; }
+      if (button) { button.disabled = false; button.textContent = label; }
+    });
+  });
+});
+</script>
+</body>
+</html>

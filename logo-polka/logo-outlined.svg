@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="256" height="256" color="#3B2A22" role="img" aria-labelledby="outline-title">
+  <title id="outline-title">Тёплый угол — контурный знак для одноцветной печати</title>
+
+  <g id="mark-outline" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path id="handle-line" stroke-width="3" d="M41.5 31c8 0 8 9.5 0 9.5"/>
+    <path id="frame-line" stroke-width="3" d="M14.5 45V30a13.5 13.5 0 0 1 27 0v15"/>
+    <path id="bars-line" stroke-width="2.2" d="M28 18.5v26.5M15.5 31h25"/>
+    <path id="sill-line" stroke-width="3" d="M12 49.5h40"/>
+  </g>
+</svg>
