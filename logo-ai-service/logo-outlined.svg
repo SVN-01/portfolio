@@ -1,60 +1,63 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="29.48 25.48 141.04 149.04" width="141" height="149">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="36.72 28.72 126.56 142.56" width="127" height="143">
 <defs>
-    <style>
-      .wordmark{
-        font-family:"Segoe UI","Inter","Roboto",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
-        font-weight:700;
-        fill:#0E2C57;
-      }
-    </style>
-
-    <!-- Палитра: глубокий синий -->
-    <linearGradient id="grad-blue" gradientUnits="userSpaceOnUse" x1="100" y1="20" x2="100" y2="182">
-      <stop offset="0" stop-color="#2569B8"/>
-      <stop offset="1" stop-color="#0B2750"/>
+    <!-- Основной градиент знака: глубокий синий (низ-лево) → мятный (верх-право) -->
+    <linearGradient id="grad-net" gradientUnits="userSpaceOnUse" x1="50" y1="162" x2="152" y2="42">
+      <stop offset="0" stop-color="#1B3ECF"/>
+      <stop offset="0.52" stop-color="#1F86E8"/>
+      <stop offset="1" stop-color="#2FE3B6"/>
     </linearGradient>
 
-    <!-- Палитра: мятный акцент -->
-    <linearGradient id="grad-mint" gradientUnits="userSpaceOnUse" x1="100" y1="28" x2="100" y2="172">
-      <stop offset="0" stop-color="#7DF2DA"/>
-      <stop offset="1" stop-color="#1FBFA0"/>
+    <!-- Градиент акцентного (центрального) узла -->
+    <linearGradient id="grad-core" gradientUnits="userSpaceOnUse" x1="82" y1="120" x2="118" y2="80">
+      <stop offset="0" stop-color="#1ECFA2"/>
+      <stop offset="1" stop-color="#6FF3D4"/>
     </linearGradient>
 
-    <!-- Мягкая тень для цветных вариантов -->
-    <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
-      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#07203F" flood-opacity="0.18"/>
-    </filter>
+    <!-- Мягкое мятное свечение вокруг активного узла -->
+    <radialGradient id="grad-glow" gradientUnits="userSpaceOnUse" cx="100" cy="100" r="44">
+      <stop offset="0.42" stop-color="#2FE3B6" stop-opacity="0.34"/>
+      <stop offset="0.72" stop-color="#2FE3B6" stop-opacity="0.10"/>
+      <stop offset="1" stop-color="#2FE3B6" stop-opacity="0"/>
+    </radialGradient>
 
-    <!-- Связи знака: сплошная траектория N (для цветных вариантов) -->
-    <path id="link-path" fill="none" stroke-linecap="round" stroke-linejoin="round"
-          d="M46 158 V42 L154 158 V42"/>
+    <!-- Геометрия сети: рёбра (левая стойка, диагональ, правая стойка) -->
+    <path id="net-links" fill="none" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"
+          d="M58 50 V150 M58 50 L142 150 M142 50 V150"/>
 
-    <!-- Связи знака: подрезанная траектория (для контурного варианта) -->
-    <path id="link-path-trim" fill="none" stroke-linecap="round"
-          d="M46 134 V66 M62.4 59.6 L137.6 140.4 M154 134 V66"/>
+    <!-- Геометрия сети: угловые узлы -->
+    <g id="net-corners">
+      <circle cx="58" cy="50" r="16"/>
+      <circle cx="58" cy="150" r="16"/>
+      <circle cx="142" cy="50" r="16"/>
+      <circle cx="142" cy="150" r="16"/>
+    </g>
+
+    <!-- Центральный узел — точка синапса -->
+    <circle id="net-core" cx="100" cy="100" r="22"/>
 
     <!-- Цветной знак -->
-    <g id="mark-solid">
-      <use xlink:href="#link-path" href="#link-path" stroke="url(#grad-blue)" stroke-width="14"/>
-      <circle cx="46" cy="42" r="15" fill="url(#grad-blue)"/>
-      <circle cx="46" cy="158" r="15" fill="url(#grad-blue)"/>
-      <circle cx="154" cy="158" r="15" fill="url(#grad-blue)"/>
-      <circle cx="154" cy="42" r="15" fill="url(#grad-mint)"/>
-      <circle cx="100" cy="100" r="22" fill="url(#grad-mint)"/>
-      <circle cx="100" cy="100" r="8.5" fill="#0E2C57"/>
+    <g id="mark-color">
+      <circle cx="100" cy="100" r="44" fill="url(#grad-glow)"/>
+      <use href="#net-links" stroke="url(#grad-net)"/>
+      <g fill="url(#grad-net)"><use href="#net-corners"/></g>
+      <use href="#net-core" fill="url(#grad-core)"/>
     </g>
 
-    <!-- Одноцветный контурный знак: цвет наследуется через currentColor -->
-    <g id="mark-line" fill="none" stroke="currentColor" stroke-width="10">
-      <use xlink:href="#link-path-trim" href="#link-path-trim"/>
-      <circle cx="46" cy="42" r="11"/>
-      <circle cx="46" cy="158" r="11"/>
-      <circle cx="154" cy="158" r="11"/>
-      <circle cx="154" cy="42" r="11"/>
-      <circle cx="100" cy="100" r="20" fill="currentColor" stroke="none"/>
+    <!-- Одноцветный знак: только линии и силуэт -->
+    <g id="mark-mono" fill="currentColor" stroke="none">
+      <use href="#net-links" fill="none" stroke="currentColor"/>
+      <use href="#net-corners"/>
+      <use href="#net-core"/>
+    </g>
+
+    <!-- Название -->
+    <g id="wordmark">
+      <text x="0" y="0" text-anchor="middle" fill="currentColor"
+            font-family="Segoe UI, Helvetica Neue, Arial, sans-serif"
+            font-size="80" font-weight="600" letter-spacing="9">NEURA</text>
     </g>
   </defs>
-<g id="v-outlined" data-viewbox="0 0 200 200" color="#0E2C57">
-    <use xlink:href="#mark-line" href="#mark-line"/>
+<g id="v-outlined" data-viewbox="0 0 200 200" color="#123A8F">
+    <use href="#mark-mono"/>
   </g>
 </svg>

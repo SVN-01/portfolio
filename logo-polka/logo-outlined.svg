@@ -1,10 +1,55 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="256" height="256" color="#3B2A22" role="img" aria-labelledby="outline-title">
-  <title id="outline-title">Тёплый угол — контурный знак для одноцветной печати</title>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="26.12 20.12 141.76 158.76" width="142" height="159">
+<defs>
+    <!-- ЦВЕТ: тёплый градиент охра → глубокая терракота -->
+    <linearGradient id="grad-warm" gradientUnits="userSpaceOnUse" x1="40" y1="52" x2="152" y2="168">
+      <stop offset="0" stop-color="#F4B54D"/>
+      <stop offset="0.55" stop-color="#DE7F33"/>
+      <stop offset="1" stop-color="#BC4227"/>
+    </linearGradient>
+    <linearGradient id="grad-deep" gradientUnits="userSpaceOnUse" x1="32" y1="158" x2="148" y2="174">
+      <stop offset="0" stop-color="#C2542D"/>
+      <stop offset="1" stop-color="#96331F"/>
+    </linearGradient>
 
-  <g id="mark-outline" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-    <path id="handle-line" stroke-width="3" d="M41.5 31c8 0 8 9.5 0 9.5"/>
-    <path id="frame-line" stroke-width="3" d="M14.5 45V30a13.5 13.5 0 0 1 27 0v15"/>
-    <path id="bars-line" stroke-width="2.2" d="M28 18.5v26.5M15.5 31h25"/>
-    <path id="sill-line" stroke-width="3" d="M12 49.5h40"/>
+    <!-- ГЕОМЕТРИЯ: базовые контуры, используются всеми вариантами -->
+    <path id="p-cup" d="M40 66 Q40 60 46 60 H134 Q140 60 140 66 L132 134 A22 22 0 0 1 110 156 H70 A22 22 0 0 1 48 134 Z"/>
+    <path id="p-handle" d="M138 82 C170 82 170 130 138 130"/>
+    <path id="p-page-l" d="M85 104 C76 97 66 93.5 56 93.5 L56 118.5 C66 118.5 76 122 85 129 Z"/>
+    <path id="p-page-r" d="M95 104 C104 97 114 93.5 124 93.5 L124 118.5 C114 118.5 104 122 95 129 Z"/>
+    <rect id="p-saucer" x="32" y="158" width="116" height="15" rx="7.5"/>
+    <path id="p-steam-a" d="M74 52 C63 42 85 36 74 26"/>
+    <path id="p-steam-b" d="M108 52 C97 44 117 39 108 31"/>
+
+    <!-- Книга вырезана из чашки: настоящее негативное пространство -->
+    <mask id="mask-book">
+      <rect x="26" y="46" width="158" height="136" fill="#fff"/>
+      <use href="#p-page-l" fill="#000"/>
+      <use href="#p-page-r" fill="#000"/>
+    </mask>
+
+    <!-- Готовый цветной знак -->
+    <g id="mark-color">
+      <g fill="none" stroke="#E7A244" stroke-width="10" stroke-linecap="round">
+        <use href="#p-steam-a"/>
+        <use href="#p-steam-b"/>
+      </g>
+      <use href="#p-handle" fill="none" stroke="url(#grad-warm)" stroke-width="14" stroke-linecap="round"/>
+      <use href="#p-cup" fill="url(#grad-warm)" mask="url(#mask-book)"/>
+      <use href="#p-saucer" fill="url(#grad-deep)"/>
+    </g>
+
+    <!-- Контурный знак в один цвет -->
+    <g id="mark-line" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+      <use href="#p-steam-a"/>
+      <use href="#p-steam-b"/>
+      <use href="#p-handle" stroke-width="10"/>
+      <use href="#p-cup"/>
+      <use href="#p-page-l"/>
+      <use href="#p-page-r"/>
+      <use href="#p-saucer"/>
+    </g>
+  </defs>
+<g id="v-outlined" data-viewbox="0 0 200 200" color="#A8402A">
+    <use href="#mark-line"/>
   </g>
 </svg>

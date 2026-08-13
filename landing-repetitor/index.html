@@ -8,6 +8,8 @@
 :root {
   --accent: #3f6fa8;
   --accent-dark: #345b8a;
+  --accent-btn: #3f6fa8;
+  --accent-btn-rgb: 63, 111, 168;
   --accent-rgb: 63, 111, 168;
   --bg: #ffffff;
   --bg-soft: #f5f7fa;
@@ -43,11 +45,15 @@ nav a:hover { color: var(--fg); }
 
 .btn {
   display: inline-block; padding: 14px 28px; border-radius: 10px;
-  background: var(--accent); color: #fff; text-decoration: none;
+  background: linear-gradient(135deg, var(--accent-btn),
+    color-mix(in srgb, var(--accent-btn) 78%, #000));
+  color: #fff; text-decoration: none;
+  box-shadow: 0 8px 20px rgba(var(--accent-btn-rgb), .32);
   font-weight: 600; font-size: 16px; border: 0; cursor: pointer;
   transition: background .15s ease, transform .15s ease;
 }
-.btn:hover { background: var(--accent-dark); transform: translateY(-1px); }
+.btn:hover { transform: translateY(-2px); filter: brightness(1.08);
+  box-shadow: 0 12px 26px rgba(var(--accent-btn-rgb), .42); }
 .btn-ghost {
   background: transparent; color: var(--accent);
   border: 1px solid var(--accent); padding: 12px 24px;
@@ -68,10 +74,128 @@ h3 { font-size: 19px; }
 .sec-head { max-width: 62ch; margin-bottom: 38px; }
 .sec-head p { color: var(--muted); margin: 0; }
 
-.hero { padding: 96px 0 88px; background:
-  radial-gradient(1000px 400px at 15% -10%, rgba(var(--accent-rgb), .14), transparent 70%),
-  var(--bg); }
+/* Первый экран без фотографии. Плоский белый фон читается как черновик,
+   а стоковые снимки в свободных лицензиях - это музейные архивы, их на
+   лендинг автосервиса не поставишь. Поэтому фон рисуется здесь же:
+   градиентные пятна акцентного цвета и мелкая сетка. Стоит ноль,
+   не зависит ни от чьих лицензий и всегда под цвет клиента. */
+.hero {
+  position: relative; overflow: hidden;
+  padding: 104px 0 96px;
+  background:
+    radial-gradient(760px 520px at 12% -8%, rgba(var(--accent-rgb), .22), transparent 62%),
+    radial-gradient(620px 460px at 88% 8%, rgba(var(--accent-rgb), .12), transparent 65%),
+    linear-gradient(180deg, #fbfcfe 0%, var(--bg) 60%);
+}
+.hero::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(var(--accent-rgb), .07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--accent-rgb), .07) 1px, transparent 1px);
+  background-size: 46px 46px;
+  mask-image: radial-gradient(680px 420px at 78% 22%, #000 0%, transparent 72%);
+  -webkit-mask-image: radial-gradient(680px 420px at 78% 22%, #000 0%, transparent 72%);
+}
+/* Тёплое пятно, которое медленно дышит: страница перестаёт быть неподвижной */
+.hero::after {
+  content: ""; position: absolute; width: 520px; height: 520px;
+  right: -120px; top: -160px; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle, rgba(var(--accent-rgb), .28), transparent 68%);
+  filter: blur(6px); animation: drift 14s ease-in-out infinite alternate;
+}
+@keyframes drift {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(-38px, 30px, 0) scale(1.12); }
+}
+.hero .wrap { position: relative; z-index: 1; }
 .hero h1 { max-width: 18ch; }
+.hero h1 em {
+  font-style: normal;
+  background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+/* Карточки: тонкая акцентная полоса сверху вместо голой рамки */
+.card { position: relative; overflow: hidden; }
+.card::after {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px;
+  background: linear-gradient(90deg, var(--accent), rgba(var(--accent-rgb), 0));
+  opacity: 0; transition: opacity .2s ease;
+}
+.card:hover::after { opacity: 1; }
+
+/* Движение. Страница без него выглядит распечаткой: блоки просто лежат.
+   Появление при прокрутке и отклик на курсор стоят пары строк, а разница
+   между «сверстано» и «сделано» видна сразу. */
+/* Прячем содержимое ТОЛЬКО когда javascript работает и точно вернёт его
+   обратно. Без этой оговорки страница с отключённым скриптом остаётся
+   пустой: текст есть в разметке, но невидим. */
+.has-js .reveal { opacity: 0; transform: translateY(18px); }
+.has-js .reveal.seen { opacity: 1; transform: none;
+  transition: opacity .6s cubic-bezier(.2,.7,.3,1), transform .6s cubic-bezier(.2,.7,.3,1); }
+.has-js .reveal.seen .card:nth-child(2) { transition-delay: .06s; }
+.has-js .reveal.seen .card:nth-child(3) { transition-delay: .12s; }
+.has-js .reveal.seen .card:nth-child(4) { transition-delay: .18s; }
+
+.card { transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+.card:hover { transform: translateY(-4px); box-shadow: var(--shadow);
+  border-color: rgba(var(--accent-rgb), .45); }
+.gallery img { transition: transform .35s ease; }
+.gallery a:hover img, .gallery img:hover { transform: scale(1.03); }
+
+/* Кому движение мешает - тому его не будет. Это не украшательство,
+   а требование доступности: у части людей от анимаций кружится голова. */
+@media (prefers-reduced-motion: reduce) {
+  .has-js .reveal, .has-js .reveal.seen {
+    opacity: 1; transform: none; transition: none; }
+  .card:hover { transform: none; }
+  .hero::after { animation: none; }
+  html { scroll-behavior: auto; }
+}
+
+/* Первый экран с фотографией: снимок на всю ширину и текст поверх.
+   Без картинки страница выглядит бедно, что бы ни было написано. */
+.hero.shot { position: relative; background: #0d1520; color: #fff;
+  padding: 120px 0 108px; overflow: hidden; }
+.hero.shot::before { content: ""; position: absolute; inset: 0;
+  background-image: var(--hero-image); background-size: cover;
+  background-position: center; transform: scale(1.04); }
+.hero.shot::after { content: ""; position: absolute; inset: 0;
+  background: linear-gradient(100deg, rgba(8,14,22,.86) 0%,
+    rgba(8,14,22,.62) 45%, rgba(8,14,22,.25) 100%); }
+.hero.shot .wrap { position: relative; z-index: 1; }
+.hero.shot .lead { color: rgba(255,255,255,.86); }
+.hero.shot .btn-ghost { color: #fff; border-color: rgba(255,255,255,.6); }
+.hero.shot .btn-ghost:hover { background: rgba(255,255,255,.12); }
+
+/* Первый экран в две колонки: слева обещание, справа факты карточками.
+   В одну колонку правая половина экрана остаётся пустой, и страница
+   выглядит незаконченной именно там, куда смотрят первым делом. */
+.hero-grid { display: grid; gap: 40px; align-items: center;
+  grid-template-columns: 1.05fr .95fr; }
+.hero-grid .hero-text { min-width: 0; }
+.hero-cards { display: grid; gap: 14px; }
+.hero-cards .card {
+  background: rgba(255,255,255,.78); backdrop-filter: blur(6px);
+  border-color: rgba(var(--accent-rgb), .22);
+  box-shadow: 0 12px 34px rgba(20,30,50,.07);
+}
+.hero-cards .card { padding: 20px 22px; }
+.hero-cards .card h3 { color: var(--accent-btn); font-size: 17px;
+  margin-bottom: 6px; }
+.hero-cards .card p { font-size: 15px; }
+.hero.shot .hero-cards .card {
+  background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.28);
+  color: #fff; backdrop-filter: blur(10px);
+}
+.hero.shot .hero-cards .card p { color: rgba(255,255,255,.85); }
+.hero.shot .hero-cards .card h3 { color: #fff; }
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 30px; }
+  .hero { padding: 72px 0 64px; }
+}
+section { padding: 72px 0; }
+@media (max-width: 700px) { section { padding: 52px 0; } }
 
 .grid { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
 .card {
@@ -172,20 +296,23 @@ footer {
   * { transition: none !important; }
 }
 </style>
+<script>document.documentElement.className+=" has-js";</script>
 </head>
 <body>
 <header><div class="wrap bar">
   <span class="brand">Репетитор по математике</span>
   <nav><a href="#s1">Занятия</a><a href="#s2">Результаты</a><a href="#s3">Цены</a><a href="#s4">Вопросы</a><a href="#form">Связаться</a></nav>
 </div></header>
-<section class="hero" id="s0"><div class="wrap"><h1>Готовлю к ОГЭ и ЕГЭ по математике онлайн</h1><p class="lead">Средний прирост баллов у учеников 23 за год, 97% сдают выше 70. Первый урок бесплатный - посмотрим, как идёт работа.</p><a class="btn" href="#form">Записаться на пробный урок</a></div></section><section id="s1"><div class="wrap"><div class="sec-head"><h2>Как проходит занятие</h2></div><div class="grid steps"><div class="card"><h3>Пробный урок</h3><p>Знакомимся, смотрим текущий уровень и разбираем, какие темы проседают. Бесплатно.</p></div>
+<section class="hero" id="s0"><div class="wrap"><div class="hero-grid"><div class="hero-text"><h1>Готовлю к ОГЭ и ЕГЭ по математике онлайн</h1><p class="lead">Средний прирост баллов у учеников 23 за год, 97% сдают выше 70. Первый урок бесплатный - посмотрим, как идёт работа.</p><a class="btn" href="#form">Записаться на пробный урок</a></div><div class="hero-cards reveal seen"><div class="card"><h3>Пробный урок</h3><p>Знакомимся, смотрим текущий уровень и разбираем, какие темы проседают. Бесплатно.</p></div>
+<div class="card"><h3>+23 балла за год</h3><p>Средний прирост баллов у учеников 23 за год.</p></div>
+<div class="card"><h3>Пробный урок</h3><p>Знакомство и разбор текущего уровня.</p></div></div></div></div></section><section id="s1"><div class="wrap reveal"><div class="sec-head"><h2>Как проходит занятие</h2></div><div class="grid steps"><div class="card"><h3>Пробный урок</h3><p>Знакомимся, смотрим текущий уровень и разбираем, какие темы проседают. Бесплатно.</p></div>
 <div class="card"><h3>План подготовки</h3><p>Собираю программу под конкретный экзамен и срок, который остался до него.</p></div>
 <div class="card"><h3>Занятия онлайн</h3><p>Работаем по видеосвязи с доской: разбор теории, задачи, вопросы по ходу.</p></div>
-<div class="card"><h3>Домашняя работа</h3><p>После урока задания на закрепление, на следующем занятии разбираем ошибки.</p></div></div></div></section><section class="soft" id="s2"><div class="wrap"><div class="sec-head"><h2>Что получается у учеников</h2></div><div class="grid"><div class="card"><h3>+23 балла за год</h3><p>Средний прирост баллов у учеников 23 за год.</p></div>
+<div class="card"><h3>Домашняя работа</h3><p>После урока задания на закрепление, на следующем занятии разбираем ошибки.</p></div></div></div></section><section class="soft" id="s2"><div class="wrap reveal"><div class="sec-head"><h2>Что получается у учеников</h2></div><div class="grid"><div class="card"><h3>+23 балла за год</h3><p>Средний прирост баллов у учеников 23 за год.</p></div>
 <div class="card"><h3>97% выше 70</h3><p>97% учеников сдают экзамен выше 70 баллов.</p></div>
-<div class="card"><h3>ОГЭ и ЕГЭ</h3><p>Готовлю к обоим экзаменам, программа собирается под нужный формат.</p></div></div></div></section><section id="s3"><div class="wrap"><div class="sec-head"><h2>Сколько стоит занятие</h2></div><div class="grid price"><div class="card"><h3>Пробный урок</h3><div class="amount">бесплатно</div><p>Знакомство и разбор текущего уровня.</p><ul><li>Онлайн</li><li>Без обязательств</li></ul></div>
+<div class="card"><h3>ОГЭ и ЕГЭ</h3><p>Готовлю к обоим экзаменам, программа собирается под нужный формат.</p></div></div></div></section><section id="s3"><div class="wrap reveal"><div class="sec-head"><h2>Сколько стоит занятие</h2></div><div class="grid price"><div class="card"><h3>Пробный урок</h3><div class="amount">бесплатно</div><p>Знакомство и разбор текущего уровня.</p><ul><li>Онлайн</li><li>Без обязательств</li></ul></div>
 <div class="card"><h3>Разовое занятие</h3><div class="amount">2000 руб.</div><p>Одно занятие без пакета.</p><ul><li>Онлайн</li><li>Домашнее задание</li></ul></div>
-<div class="card featured"><h3>Пакет из 8 занятий</h3><div class="amount">14 000 руб.</div><p>Восемь занятий одним пакетом.</p><ul><li>Онлайн</li><li>Домашнее задание</li><li>План подготовки</li></ul></div></div></div></section><section class="soft" id="s4"><div class="wrap"><div class="sec-head"><h2>Что обычно спрашивают перед стартом</h2></div><details><summary>Можно ли перенести урок?</summary><p>Да. Напишите заранее, и мы подберём другое время в расписании.</p></details>
+<div class="card featured"><h3>Пакет из 8 занятий</h3><div class="amount">14 000 руб.</div><p>Восемь занятий одним пакетом.</p><ul><li>Онлайн</li><li>Домашнее задание</li><li>План подготовки</li></ul></div></div></div></section><section class="soft" id="s4"><div class="wrap reveal"><div class="sec-head"><h2>Что обычно спрашивают перед стартом</h2></div><details><summary>Можно ли перенести урок?</summary><p>Да. Напишите заранее, и мы подберём другое время в расписании.</p></details>
 <details><summary>Что нужно из техники?</summary><p>Компьютер или ноутбук с камерой, микрофоном и интернетом. Тетрадь и ручка под рукой.</p></details>
 <details><summary>Как оплачивать занятия?</summary><p>Разовое занятие или пакет из 8 занятий, оплата переводом до начала работы.</p></details></div></section>
 
@@ -214,6 +341,24 @@ footer {
   <span>Репетитор по математике</span><span>© 2026</span>
 </div></footer>
 <script>
+// Появление блоков при прокрутке. IntersectionObserver, а не обработчик
+// scroll: тот дёргается сотни раз в секунду и заметно греет телефон.
+(function () {
+  var items = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) {
+    items.forEach(function (el) { el.classList.add('seen'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) { return; }
+      entry.target.classList.add('seen');
+      io.unobserve(entry.target);
+    });
+  }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
+  items.forEach(function (el) { io.observe(el); });
+})();
+
 document.querySelectorAll('form').forEach(function (form) {
   form.addEventListener('submit', function (event) {
     event.preventDefault();

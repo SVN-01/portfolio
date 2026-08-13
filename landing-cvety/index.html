@@ -8,6 +8,8 @@
 :root {
   --accent: #d9a3ae;
   --accent-dark: #b2868f;
+  --accent-btn: #b1858e;
+  --accent-btn-rgb: 177, 133, 142;
   --accent-rgb: 217, 163, 174;
   --bg: #ffffff;
   --bg-soft: #f5f7fa;
@@ -43,11 +45,15 @@ nav a:hover { color: var(--fg); }
 
 .btn {
   display: inline-block; padding: 14px 28px; border-radius: 10px;
-  background: var(--accent); color: #fff; text-decoration: none;
+  background: linear-gradient(135deg, var(--accent-btn),
+    color-mix(in srgb, var(--accent-btn) 78%, #000));
+  color: #fff; text-decoration: none;
+  box-shadow: 0 8px 20px rgba(var(--accent-btn-rgb), .32);
   font-weight: 600; font-size: 16px; border: 0; cursor: pointer;
   transition: background .15s ease, transform .15s ease;
 }
-.btn:hover { background: var(--accent-dark); transform: translateY(-1px); }
+.btn:hover { transform: translateY(-2px); filter: brightness(1.08);
+  box-shadow: 0 12px 26px rgba(var(--accent-btn-rgb), .42); }
 .btn-ghost {
   background: transparent; color: var(--accent);
   border: 1px solid var(--accent); padding: 12px 24px;
@@ -68,10 +74,128 @@ h3 { font-size: 19px; }
 .sec-head { max-width: 62ch; margin-bottom: 38px; }
 .sec-head p { color: var(--muted); margin: 0; }
 
-.hero { padding: 96px 0 88px; background:
-  radial-gradient(1000px 400px at 15% -10%, rgba(var(--accent-rgb), .14), transparent 70%),
-  var(--bg); }
+/* Первый экран без фотографии. Плоский белый фон читается как черновик,
+   а стоковые снимки в свободных лицензиях - это музейные архивы, их на
+   лендинг автосервиса не поставишь. Поэтому фон рисуется здесь же:
+   градиентные пятна акцентного цвета и мелкая сетка. Стоит ноль,
+   не зависит ни от чьих лицензий и всегда под цвет клиента. */
+.hero {
+  position: relative; overflow: hidden;
+  padding: 104px 0 96px;
+  background:
+    radial-gradient(760px 520px at 12% -8%, rgba(var(--accent-rgb), .22), transparent 62%),
+    radial-gradient(620px 460px at 88% 8%, rgba(var(--accent-rgb), .12), transparent 65%),
+    linear-gradient(180deg, #fbfcfe 0%, var(--bg) 60%);
+}
+.hero::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(var(--accent-rgb), .07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--accent-rgb), .07) 1px, transparent 1px);
+  background-size: 46px 46px;
+  mask-image: radial-gradient(680px 420px at 78% 22%, #000 0%, transparent 72%);
+  -webkit-mask-image: radial-gradient(680px 420px at 78% 22%, #000 0%, transparent 72%);
+}
+/* Тёплое пятно, которое медленно дышит: страница перестаёт быть неподвижной */
+.hero::after {
+  content: ""; position: absolute; width: 520px; height: 520px;
+  right: -120px; top: -160px; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle, rgba(var(--accent-rgb), .28), transparent 68%);
+  filter: blur(6px); animation: drift 14s ease-in-out infinite alternate;
+}
+@keyframes drift {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(-38px, 30px, 0) scale(1.12); }
+}
+.hero .wrap { position: relative; z-index: 1; }
 .hero h1 { max-width: 18ch; }
+.hero h1 em {
+  font-style: normal;
+  background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+/* Карточки: тонкая акцентная полоса сверху вместо голой рамки */
+.card { position: relative; overflow: hidden; }
+.card::after {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px;
+  background: linear-gradient(90deg, var(--accent), rgba(var(--accent-rgb), 0));
+  opacity: 0; transition: opacity .2s ease;
+}
+.card:hover::after { opacity: 1; }
+
+/* Движение. Страница без него выглядит распечаткой: блоки просто лежат.
+   Появление при прокрутке и отклик на курсор стоят пары строк, а разница
+   между «сверстано» и «сделано» видна сразу. */
+/* Прячем содержимое ТОЛЬКО когда javascript работает и точно вернёт его
+   обратно. Без этой оговорки страница с отключённым скриптом остаётся
+   пустой: текст есть в разметке, но невидим. */
+.has-js .reveal { opacity: 0; transform: translateY(18px); }
+.has-js .reveal.seen { opacity: 1; transform: none;
+  transition: opacity .6s cubic-bezier(.2,.7,.3,1), transform .6s cubic-bezier(.2,.7,.3,1); }
+.has-js .reveal.seen .card:nth-child(2) { transition-delay: .06s; }
+.has-js .reveal.seen .card:nth-child(3) { transition-delay: .12s; }
+.has-js .reveal.seen .card:nth-child(4) { transition-delay: .18s; }
+
+.card { transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+.card:hover { transform: translateY(-4px); box-shadow: var(--shadow);
+  border-color: rgba(var(--accent-rgb), .45); }
+.gallery img { transition: transform .35s ease; }
+.gallery a:hover img, .gallery img:hover { transform: scale(1.03); }
+
+/* Кому движение мешает - тому его не будет. Это не украшательство,
+   а требование доступности: у части людей от анимаций кружится голова. */
+@media (prefers-reduced-motion: reduce) {
+  .has-js .reveal, .has-js .reveal.seen {
+    opacity: 1; transform: none; transition: none; }
+  .card:hover { transform: none; }
+  .hero::after { animation: none; }
+  html { scroll-behavior: auto; }
+}
+
+/* Первый экран с фотографией: снимок на всю ширину и текст поверх.
+   Без картинки страница выглядит бедно, что бы ни было написано. */
+.hero.shot { position: relative; background: #0d1520; color: #fff;
+  padding: 120px 0 108px; overflow: hidden; }
+.hero.shot::before { content: ""; position: absolute; inset: 0;
+  background-image: var(--hero-image); background-size: cover;
+  background-position: center; transform: scale(1.04); }
+.hero.shot::after { content: ""; position: absolute; inset: 0;
+  background: linear-gradient(100deg, rgba(8,14,22,.86) 0%,
+    rgba(8,14,22,.62) 45%, rgba(8,14,22,.25) 100%); }
+.hero.shot .wrap { position: relative; z-index: 1; }
+.hero.shot .lead { color: rgba(255,255,255,.86); }
+.hero.shot .btn-ghost { color: #fff; border-color: rgba(255,255,255,.6); }
+.hero.shot .btn-ghost:hover { background: rgba(255,255,255,.12); }
+
+/* Первый экран в две колонки: слева обещание, справа факты карточками.
+   В одну колонку правая половина экрана остаётся пустой, и страница
+   выглядит незаконченной именно там, куда смотрят первым делом. */
+.hero-grid { display: grid; gap: 40px; align-items: center;
+  grid-template-columns: 1.05fr .95fr; }
+.hero-grid .hero-text { min-width: 0; }
+.hero-cards { display: grid; gap: 14px; }
+.hero-cards .card {
+  background: rgba(255,255,255,.78); backdrop-filter: blur(6px);
+  border-color: rgba(var(--accent-rgb), .22);
+  box-shadow: 0 12px 34px rgba(20,30,50,.07);
+}
+.hero-cards .card { padding: 20px 22px; }
+.hero-cards .card h3 { color: var(--accent-btn); font-size: 17px;
+  margin-bottom: 6px; }
+.hero-cards .card p { font-size: 15px; }
+.hero.shot .hero-cards .card {
+  background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.28);
+  color: #fff; backdrop-filter: blur(10px);
+}
+.hero.shot .hero-cards .card p { color: rgba(255,255,255,.85); }
+.hero.shot .hero-cards .card h3 { color: #fff; }
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 30px; }
+  .hero { padding: 72px 0 64px; }
+}
+section { padding: 72px 0; }
+@media (max-width: 700px) { section { padding: 52px 0; } }
 
 .grid { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
 .card {
@@ -172,21 +296,24 @@ footer {
   * { transition: none !important; }
 }
 </style>
+<script>document.documentElement.className+=" has-js";</script>
 </head>
 <body>
 <header><div class="wrap bar">
   <span class="brand">Цветы за час</span>
   <nav><a href="#s1">Как работаем</a><a href="#s3">Цены</a><a href="#s4">Заказ</a><a href="#s5">Зона доставки</a><a href="#form">Связаться</a></nav>
 </div></header>
-<section class="hero" id="s0"><div class="wrap"><h1>Доставим букет по Ярославлю за час</h1><p class="lead">Работаем круглосуточно. Букеты от 1900 руб, авторские композиции от 3500 руб.</p><a class="btn" href="#form">Заказать букет</a></div></section><section id="s1"><div class="wrap"><div class="sec-head"><h2>Букет приедет, пока повод ещё актуален</h2></div><div class="grid"><div class="card"><h3>Час на доставку</h3><p>Собираем и везём в течение часа после подтверждения заказа.</p></div>
+<section class="hero" id="s0"><div class="wrap"><div class="hero-grid"><div class="hero-text"><h1>Доставим букет по Ярославлю за час</h1><p class="lead">Работаем круглосуточно. Букеты от 1900 руб, авторские композиции от 3500 руб.</p><a class="btn" href="#form">Заказать букет</a></div><div class="hero-cards reveal seen"><div class="card"><h3>Час на доставку</h3><p>Собираем и везём в течение часа после подтверждения заказа.</p></div>
+<div class="card"><h3>Букет</h3><p>Готовые букеты из наличия, собираем и отправляем сразу.</p></div>
+<div class="card"><h3>Оставляете заявку</h3><p>Через форму на странице, по телефону или в вотсапе.</p></div></div></div></div></section><section id="s1"><div class="wrap reveal"><div class="sec-head"><h2>Букет приедет, пока повод ещё актуален</h2></div><div class="grid"><div class="card"><h3>Час на доставку</h3><p>Собираем и везём в течение часа после подтверждения заказа.</p></div>
 <div class="card"><h3>Круглосуточно</h3><p>Принимаем заказы и доставляем в любое время суток, без выходных.</p></div>
 <div class="card"><h3>Весь Ярославль</h3><p>Возим по городу: домой, в офис, в кафе, к подъезду или на работу.</p></div>
-<div class="card"><h3>Заказ в вотсапе</h3><p>Напишите в вотсап, пришлём фото букета перед отправкой курьеру.</p></div></div></div></section><section class="soft" id="s3"><div class="wrap"><div class="sec-head"><h2>Сколько стоит букет</h2></div><div class="grid price"><div class="card"><h3>Букет</h3><div class="amount">от 1900 руб</div><p>Готовые букеты из наличия, собираем и отправляем сразу.</p><ul><li>Доставка по Ярославлю за час</li><li>Круглосуточно</li></ul></div>
+<div class="card"><h3>Заказ в вотсапе</h3><p>Напишите в вотсап, пришлём фото букета перед отправкой курьеру.</p></div></div></div></section><section class="soft" id="s3"><div class="wrap reveal"><div class="sec-head"><h2>Сколько стоит букет</h2></div><div class="grid price"><div class="card"><h3>Букет</h3><div class="amount">от 1900 руб</div><p>Готовые букеты из наличия, собираем и отправляем сразу.</p><ul><li>Доставка по Ярославлю за час</li><li>Круглосуточно</li></ul></div>
 <div class="card featured"><h3>Авторская композиция</h3><div class="amount">от 3500 руб</div><p>Собираем под повод и ваши пожелания по цвету и настроению.</p><ul><li>Согласуем состав</li><li>Фото перед отправкой</li></ul></div>
-<div class="card"><h3>Подписка</h3><div class="amount">от 6000 руб в месяц</div><p>Еженедельные букеты по одному адресу, каждую неделю новые цветы.</p><ul><li>4 букета в месяц</li><li>Удобный день доставки</li></ul></div></div></div></section><section id="s4"><div class="wrap"><div class="sec-head"><h2>От заявки до букета в руках</h2></div><div class="grid steps"><div class="card"><h3>Оставляете заявку</h3><p>Через форму на странице, по телефону или в вотсапе.</p></div>
+<div class="card"><h3>Подписка</h3><div class="amount">от 6000 руб в месяц</div><p>Еженедельные букеты по одному адресу, каждую неделю новые цветы.</p><ul><li>4 букета в месяц</li><li>Удобный день доставки</li></ul></div></div></div></section><section id="s4"><div class="wrap reveal"><div class="sec-head"><h2>От заявки до букета в руках</h2></div><div class="grid steps"><div class="card"><h3>Оставляете заявку</h3><p>Через форму на странице, по телефону или в вотсапе.</p></div>
 <div class="card"><h3>Подтверждаем детали</h3><p>Уточняем букет, адрес и время, называем итоговую стоимость.</p></div>
 <div class="card"><h3>Собираем букет</h3><p>Флорист собирает композицию и присылает фото перед отправкой.</p></div>
-<div class="card"><h3>Курьер везёт</h3><p>Доставляем по Ярославлю в течение часа, в любое время суток.</p></div></div></div></section><section class="soft compact" id="s5"><div class="wrap"><div class="sec-head"><h2>Доставляем по Ярославлю</h2><p>Зона доставки - город Ярославль. Час на доставку считаем с момента, когда вы подтвердили заказ. Работаем круглосуточно, поэтому ночной заказ поедет так же быстро, как дневной. Если адрес за городом, напишите в вотсап - обсудим отдельно.</p></div></div></section>
+<div class="card"><h3>Курьер везёт</h3><p>Доставляем по Ярославлю в течение часа, в любое время суток.</p></div></div></div></section><section class="soft compact" id="s5"><div class="wrap reveal"><div class="sec-head"><h2>Доставляем по Ярославлю</h2><p>Зона доставки - город Ярославль. Час на доставку считаем с момента, когда вы подтвердили заказ. Работаем круглосуточно, поэтому ночной заказ поедет так же быстро, как дневной. Если адрес за городом, напишите в вотсап - обсудим отдельно.</p></div></div></section>
 
 <section class="soft" id="form"><div class="wrap">
   <div class="two">
@@ -213,6 +340,24 @@ footer {
   <span>Цветы за час</span><span>© 2026</span>
 </div></footer>
 <script>
+// Появление блоков при прокрутке. IntersectionObserver, а не обработчик
+// scroll: тот дёргается сотни раз в секунду и заметно греет телефон.
+(function () {
+  var items = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) {
+    items.forEach(function (el) { el.classList.add('seen'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) { return; }
+      entry.target.classList.add('seen');
+      io.unobserve(entry.target);
+    });
+  }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
+  items.forEach(function (el) { io.observe(el); });
+})();
+
 document.querySelectorAll('form').forEach(function (form) {
   form.addEventListener('submit', function (event) {
     event.preventDefault();
